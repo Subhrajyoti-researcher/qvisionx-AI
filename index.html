@@ -225,11 +225,80 @@ section { padding: var(--section-pad) 0; }
   font-weight: 600; margin-bottom: 12px;
 }
 .practice-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
-.practice-card.quantum { opacity: 0.55; }
 .practice-card.quantum .practice-tag {
+  display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--text-muted); margin-top: 16px;
+  color: #a78bfa; margin-top: 16px;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2);
 }
+.practice-card.quantum .practice-tag .pulse-dot {
+  width: 5px; height: 5px; border-radius: 50%; background: #a78bfa;
+  animation: pulse 2s ease-in-out infinite;
+}
+.practice-card.quantum::before { background: linear-gradient(135deg, #a78bfa 0%, #6393ff 100%); }
+
+/* ── AGENT BANNER ── */
+.agent-banner {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.agent-banner-inner {
+  display: flex; align-items: center; gap: 48px;
+  padding: 72px 0;
+}
+.agent-visual {
+  flex-shrink: 0; width: 280px; height: 220px;
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.agent-hub {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--gradient-accent);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  box-shadow: 0 0 30px rgba(99,147,255,0.3);
+}
+.agent-hub svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 1.5; }
+.agent-orbit {
+  position: absolute; border: 1px dashed rgba(99,147,255,0.2); border-radius: 50%;
+}
+.agent-orbit.o1 { width: 140px; height: 140px; animation: spin 20s linear infinite; }
+.agent-orbit.o2 { width: 220px; height: 220px; animation: spin 30s linear infinite reverse; }
+.agent-node {
+  position: absolute; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-accent);
+  display: flex; align-items: center; justify-content: center;
+}
+.agent-node svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+.agent-orbit.o1 .agent-node:nth-child(1) { top: -16px; left: calc(50% - 16px); }
+.agent-orbit.o1 .agent-node:nth-child(2) { bottom: -16px; left: calc(50% - 16px); }
+.agent-orbit.o1 .agent-node:nth-child(3) { top: calc(50% - 16px); right: -16px; }
+.agent-orbit.o2 .agent-node:nth-child(1) { top: 10px; right: 10px; }
+.agent-orbit.o2 .agent-node:nth-child(2) { bottom: 10px; left: 10px; }
+.agent-orbit.o2 .agent-node:nth-child(3) { top: calc(50% - 16px); left: -16px; }
+.agent-orbit.o2 .agent-node:nth-child(4) { bottom: 10px; right: 10px; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.agent-text { flex: 1; }
+.agent-text h2 {
+  font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.15;
+}
+.agent-text h2 .gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.agent-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.75; max-width: 520px; margin-bottom: 12px; }
+.agent-capabilities {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+}
+.agent-cap {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 100px;
+  background: var(--accent-glow); border: 1px solid var(--border-accent);
+  font-size: 13px; font-weight: 500; color: var(--accent-bright);
+}
+.agent-cap svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 2; }
 
 /* ── PROCESS ── */
 .process-steps { margin-top: 56px; display: flex; flex-direction: column; gap: 0; }
@@ -350,6 +419,9 @@ footer {
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .principles-grid { grid-template-columns: 1fr; }
   .hero-stats { gap: 32px; flex-wrap: wrap; }
+  .agent-banner-inner { flex-direction: column; text-align: center; }
+  .agent-text p { margin-left: auto; margin-right: auto; }
+  .agent-capabilities { justify-content: center; }
 }
 @media (max-width: 700px) {
   .nav-links .link-item { display: none; }
@@ -404,12 +476,12 @@ footer {
         <div class="stat-value">Vision · Agentic · Physical AI</div>
       </div>
       <div>
-        <div class="stat-label">Entity</div>
-        <div class="stat-value">QVisionX (OPC) Pvt. Ltd.</div>
+        <div class="stat-label">Team</div>
+        <div class="stat-value">1 Founder + AI Agent Fleet</div>
       </div>
       <div>
-        <div class="stat-label">Domain</div>
-        <div class="stat-value">qvisionx.com</div>
+        <div class="stat-label">Research</div>
+        <div class="stat-value">Quantum AI</div>
       </div>
     </div>
   </div>
@@ -456,8 +528,8 @@ footer {
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"/></svg>
         </div>
         <h3>Quantum AI</h3>
-        <p>An open research track alongside the three delivery practices. Not yet offered as client work.</p>
-        <div class="practice-tag">Research only</div>
+        <p>Exploring quantum-classical hybrid models, quantum-enhanced optimization, and quantum machine learning for next-generation AI systems.</p>
+        <div class="practice-tag"><span class="pulse-dot"></span>Active research</div>
       </div>
     </div>
   </div>
@@ -506,6 +578,42 @@ footer {
   </div>
 </section>
 
+<!-- AGENT-AUGMENTED -->
+<section class="agent-banner">
+  <div class="container">
+    <div class="agent-banner-inner fade-up">
+      <div class="agent-visual">
+        <div class="agent-hub">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="agent-orbit o1">
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></div>
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+        </div>
+        <div class="agent-orbit o2">
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg></div>
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838.838-2.872a2 2 0 0 1 .506-.855z"/></svg></div>
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+          <div class="agent-node"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        </div>
+      </div>
+      <div class="agent-text">
+        <h2>One founder. <span class="gradient-text">A fleet of AI agents.</span></h2>
+        <p>QVisionX is a one-person company — but never a one-mind operation. Behind every engagement, specialized AI agents handle research, code generation, testing, evaluation, and deployment orchestration.</p>
+        <p>The founder architects the solution and owns the outcome. The agents execute at a speed and breadth no traditional team can match.</p>
+        <div class="agent-capabilities">
+          <div class="agent-cap"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg> Research</div>
+          <div class="agent-cap"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Code</div>
+          <div class="agent-cap"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> Testing</div>
+          <div class="agent-cap"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/></svg> Evaluation</div>
+          <div class="agent-cap"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> Deploy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about" class="about">
   <div class="container">
@@ -513,8 +621,8 @@ footer {
       <div class="about-text">
         <div class="section-label fade-up">About</div>
         <h2 class="section-title fade-up d1">A small studio, built around one question.</h2>
-        <p class="fade-up d2">QVisionX is being incorporated as a one-person company in 2026. The question it exists to answer: what does it take to get an AI system past a convincing demo and into daily production use?</p>
-        <p class="fade-up d3">That answer is mostly engineering — data pipelines, evaluation, latency budgets, deployment on hardware that already exists. We take a small number of engagements at a time and stay on them until the system runs.</p>
+        <p class="fade-up d2">QVisionX is being incorporated as a one-person company in 2026, backed by a constellation of AI agents that research, build, test, and deploy. The question it exists to answer: what does it take to get an AI system past a convincing demo and into daily production use?</p>
+        <p class="fade-up d3">That answer is mostly engineering — data pipelines, evaluation, latency budgets, deployment on hardware that already exists. In parallel, we maintain an active research track in Quantum AI, exploring how quantum-classical hybrid approaches can unlock the next frontier of machine intelligence.</p>
       </div>
       <div class="principles fade-up d2">
         <div class="section-label">Working Principles</div>
