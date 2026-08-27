@@ -696,24 +696,24 @@ footer {
       <div class="form-card fade-up d2">
         <h3>Start a conversation</h3>
         <p>Fill in the basics and we'll get back to you.</p>
-        <form onsubmit="handleSubmit(event)">
+        <form id="contact-form" action="https://script.google.com/macros/s/AKfycbydhWAfhswGHLsHFBq4qGnnbmfd7llD66D4LtWxbTS2lBbFAdJgcsRgJ0Z5brNDwdPN/exec" method="POST">
           <div class="form-row">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" placeholder="Your name" required>
+              <input type="text" name="name" placeholder="Your name" required>
             </div>
             <div class="form-group">
               <label>Company</label>
-              <input type="text" placeholder="Company name">
+              <input type="text" name="company" placeholder="Company name">
             </div>
           </div>
           <div class="form-group">
             <label>Work email</label>
-            <input type="email" placeholder="you@company.com" required>
+            <input type="email" name="email" placeholder="you@company.com" required>
           </div>
           <div class="form-group">
             <label>Practice</label>
-            <select required>
+            <select name="practice" required>
               <option value="" disabled selected>Select a practice</option>
               <option>Vision AI</option>
               <option>Agentic AI</option>
@@ -723,7 +723,7 @@ footer {
           </div>
           <div class="form-group">
             <label>What are you building?</label>
-            <textarea placeholder="The problem, the metric you care about, and any constraints we should know."></textarea>
+            <textarea name="message" placeholder="The problem, the metric you care about, and any constraints we should know."></textarea>
           </div>
           <button type="submit" class="btn btn-primary form-submit">Send Message</button>
         </form>
@@ -756,21 +756,37 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-function handleSubmit(e) {
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
-  btn.textContent = 'Sent — we\'ll be in touch';
-  btn.style.background = '#22c55e';
-  btn.style.boxShadow = '0 0 20px rgba(34,197,94,0.25)';
+  const btn = this.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Send Message';
-    btn.style.background = '';
-    btn.style.boxShadow = '';
-    btn.disabled = false;
-    e.target.reset();
-  }, 3000);
-}
+  try {
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((val, key) => { data[key] = val; });
+    const resp = await fetch(this.action, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+    if (resp.ok) {
+      btn.textContent = 'Sent — we\'ll be in touch';
+      btn.style.background = '#22c55e';
+      btn.style.boxShadow = '0 0 20px rgba(34,197,94,0.25)';
+      this.reset();
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.style.boxShadow = ''; btn.disabled = false; }, 3000);
+    } else {
+      btn.textContent = 'Error — try again';
+      btn.style.background = '#ef4444';
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.disabled = false; }, 3000);
+    }
+  } catch {
+    btn.textContent = 'Error — try again';
+    btn.style.background = '#ef4444';
+    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.disabled = false; }, 3000);
+  }
+});
 </script>
 
 </body>
