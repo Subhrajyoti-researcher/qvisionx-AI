@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QVisionX — Applied AI Systems</title>
-<meta name="description" content="QVisionX builds vision, agentic, and physical AI for teams shipping real products.">
+<title>QVisionX — Applied AI Systems That See, Decide, and Act</title>
+<meta name="description" content="QVisionX builds production-grade vision, agentic, and physical AI for startups. One founder, a fleet of AI agents. From prototype to deployment in weeks.">
+<meta name="keywords" content="AI consulting, Vision AI, Agentic AI, Physical AI, Quantum AI, production AI, AI deployment">
+<meta name="author" content="QVisionX (OPC) Private Limited">
+
+<!-- Open Graph -->
+<meta property="og:title" content="QVisionX — Applied AI Systems">
+<meta property="og:description" content="We build vision, agentic, and physical AI for teams shipping real products. One founder, a fleet of AI agents.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qvisionx.com">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QVisionX — Applied AI Systems">
+<meta name="twitter:description" content="Production-grade AI for startups. Vision, Agentic, Physical, and Quantum AI.">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 0 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -413,6 +431,90 @@ footer {
 .footer-practices { font-size: 13px; color: var(--text-muted); }
 .footer-right { font-size: 13px; color: var(--text-muted); text-align: right; }
 
+/* ── METRICS ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px; margin-top: 56px;
+}
+.metric-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px 28px; text-align: center;
+  transition: all 0.35s ease;
+}
+.metric-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.metric-value {
+  font-family: var(--font-display); font-size: clamp(32px, 4vw, 44px);
+  font-weight: 700; margin-bottom: 8px;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.metric-label {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.5;
+}
+
+/* ── STACK ── */
+.stack { background: var(--bg-secondary); }
+.stack-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; margin-top: 56px;
+}
+.stack-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px;
+  transition: all 0.35s ease;
+}
+.stack-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+}
+.stack-card-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+.stack-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--accent-glow); border: 1px solid var(--border-accent);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.stack-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.stack-card h3 {
+  font-family: var(--font-display); font-size: 18px; font-weight: 600;
+}
+.stack-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
+.stack-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.stack-tag {
+  font-size: 12px; padding: 4px 12px; border-radius: 100px;
+  background: rgba(99,147,255,0.08); border: 1px solid rgba(99,147,255,0.12);
+  color: var(--text-muted); font-weight: 500;
+}
+
+/* ── FOUNDER ── */
+.founder-grid {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 56px; align-items: center; margin-top: 56px;
+}
+.founder-photo {
+  width: 240px; height: 240px; border-radius: 20px;
+  object-fit: cover; object-position: center top;
+  border: 2px solid var(--border-accent);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.founder-name {
+  font-family: var(--font-display); font-size: 28px;
+  font-weight: 700; margin-bottom: 4px;
+}
+.founder-role {
+  font-size: 15px; color: var(--accent); font-weight: 500; margin-bottom: 20px;
+}
+.founder-bio { font-size: 16px; color: var(--text-secondary); line-height: 1.75; max-width: 560px; }
+.founder-bio + .founder-bio { margin-top: 12px; }
+
 /* ── ANIMATIONS ── */
 .fade-up {
   opacity: 0; transform: translateY(24px);
@@ -432,6 +534,10 @@ footer {
   .agent-banner-inner { flex-direction: column; text-align: center; }
   .agent-text p { margin-left: auto; margin-right: auto; }
   .agent-capabilities { justify-content: center; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .stack-grid { grid-template-columns: 1fr; }
+  .founder-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .founder-bio { margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 700px) {
   .nav-links .link-item { display: none; }
@@ -441,6 +547,7 @@ footer {
   .footer-right { text-align: center; }
   .step { grid-template-columns: 56px 1fr; }
   .hero-stats { gap: 24px; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -541,6 +648,33 @@ footer {
   </div>
 </section>
 
+<!-- IMPACT -->
+<section class="metrics">
+  <div class="container">
+    <div class="section-label fade-up">What We Deliver</div>
+    <h2 class="section-title fade-up d1">From prototype to production in weeks</h2>
+    <p class="section-desc fade-up d2">We scope against measurable targets and ship systems that hold up under real-world conditions.</p>
+    <div class="metrics-grid">
+      <div class="metric-card fade-up d1">
+        <div class="metric-value">4&ndash;8 wk</div>
+        <div class="metric-label">Prototype to production deployment</div>
+      </div>
+      <div class="metric-card fade-up d2">
+        <div class="metric-value">10+</div>
+        <div class="metric-label">Specialized AI agents in the fleet</div>
+      </div>
+      <div class="metric-card fade-up d3">
+        <div class="metric-value">E2E</div>
+        <div class="metric-label">Scope, build, deploy, and hand over</div>
+      </div>
+      <div class="metric-card fade-up d4">
+        <div class="metric-value">0</div>
+        <div class="metric-label">Vendor lock-in. Your infra, your weights</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PROCESS -->
 <section id="process">
   <div class="container">
@@ -620,6 +754,62 @@ footer {
   </div>
 </section>
 
+<!-- STACK -->
+<section class="stack">
+  <div class="container">
+    <div class="section-label fade-up">How We Build</div>
+    <h2 class="section-title fade-up d1">The stack behind the systems</h2>
+    <p class="section-desc fade-up d2">Production-grade tools chosen for reliability, not novelty.</p>
+    <div class="stack-grid">
+      <div class="stack-card fade-up d1">
+        <div class="stack-card-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Perception</h3>
+        </div>
+        <p>Custom vision models, multi-modal pipelines, and real-time inference at the edge.</p>
+        <div class="stack-tags">
+          <span class="stack-tag">PyTorch</span>
+          <span class="stack-tag">ONNX</span>
+          <span class="stack-tag">TensorRT</span>
+          <span class="stack-tag">OpenCV</span>
+        </div>
+      </div>
+      <div class="stack-card fade-up d2">
+        <div class="stack-card-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><circle cx="12" cy="6" r="1"/><path d="M7 20h10"/></svg>
+          </div>
+          <h3>Reasoning</h3>
+        </div>
+        <p>LLM orchestration, tool-use agents, structured planning, and retrieval-augmented generation.</p>
+        <div class="stack-tags">
+          <span class="stack-tag">Claude</span>
+          <span class="stack-tag">LangGraph</span>
+          <span class="stack-tag">RAG</span>
+          <span class="stack-tag">MCP</span>
+        </div>
+      </div>
+      <div class="stack-card fade-up d3">
+        <div class="stack-card-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+          </div>
+          <h3>Infrastructure</h3>
+        </div>
+        <p>Containerized deployments, GPU-optimized serving, monitoring, and CI/CD pipelines.</p>
+        <div class="stack-tags">
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Kubernetes</span>
+          <span class="stack-tag">Triton</span>
+          <span class="stack-tag">AWS / GCP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about" class="about">
   <div class="container">
@@ -650,6 +840,23 @@ footer {
             <p>Documentation and training ship with the system.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section>
+  <div class="container">
+    <div class="section-label fade-up">Founder</div>
+    <h2 class="section-title fade-up d1">The person behind the agents</h2>
+    <div class="founder-grid fade-up d2">
+      <img src="founder.png" alt="Priyanka Mandal, Founder of QVisionX" class="founder-photo">
+      <div>
+        <div class="founder-name">Priyanka Mandal</div>
+        <div class="founder-role">Founder &amp; CEO, QVisionX (OPC) Private Limited</div>
+        <p class="founder-bio">Priyanka brings deep expertise in AI systems engineering — from building vision pipelines that run on edge hardware to designing agentic workflows that automate enterprise operations.</p>
+        <p class="founder-bio">At QVisionX, she architects every solution end-to-end and owns the outcome, while a fleet of specialized AI agents handles execution at a pace no traditional team can match. Her current research focus: quantum-classical hybrid models for next-generation machine intelligence.</p>
       </div>
     </div>
   </div>
