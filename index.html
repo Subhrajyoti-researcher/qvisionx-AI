@@ -61,12 +61,16 @@ nav {
 }
 .logo {
   font-family: var(--font-display);
-  font-size: 20px; font-weight: 700; letter-spacing: 1.5px;
+  font-size: 20px; font-weight: 600; letter-spacing: 0.3px;
+  color: var(--text-primary);
+  -webkit-text-fill-color: var(--text-primary);
+}
+.logo .logo-x {
+  font-weight: 700;
   background: var(--gradient-accent);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.logo span { font-weight: 400; opacity: 0.6; -webkit-text-fill-color: var(--text-muted); }
 .nav-links { display: flex; align-items: center; gap: 36px; }
 .nav-links a {
   font-size: 14px; font-weight: 500; color: var(--text-secondary);
@@ -439,7 +443,7 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="container nav-inner">
-    <a href="#" class="logo">QVISIONX</a>
+    <a href="#" class="logo">QVision<span class="logo-x">X</span></a>
     <div class="nav-links">
       <a href="#practices" class="link-item">Capabilities</a>
       <a href="#about" class="link-item">About</a>
@@ -730,7 +734,7 @@ footer {
 <footer>
   <div class="container footer-inner">
     <div class="footer-left">
-      <div class="logo">QVISIONX</div>
+      <div class="logo">QVision<span class="logo-x">X</span></div>
       <div class="footer-practices">Vision AI · Agentic AI · Physical AI · Quantum AI</div>
     </div>
     <div class="footer-right">
