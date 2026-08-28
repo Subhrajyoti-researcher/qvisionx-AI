@@ -38,7 +38,7 @@
   --border-accent: rgba(99,147,255,0.25);
   --text-primary: #f0f2f5;
   --text-secondary: #8b95a8;
-  --text-muted: #5a6478;
+  --text-muted: #78849a;
   --accent: #6393ff;
   --accent-bright: #85b0ff;
   --accent-glow: rgba(99,147,255,0.15);
@@ -461,6 +461,11 @@ section { padding: var(--section-pad) 0; }
 .form-status.ok { color: #4ade80; }
 .form-status.err { color: #f87171; }
 .form-status a { color: var(--accent-bright); text-decoration: underline; }
+.form-privacy {
+  margin-top: 16px; font-size: 12.5px; line-height: 1.6;
+  color: var(--text-muted);
+}
+.form-privacy a { color: var(--accent-bright); text-decoration: underline; }
 
 /* ── FOOTER ── */
 footer {
@@ -1046,21 +1051,21 @@ footer {
         <form id="contact-form" action="https://script.google.com/macros/s/AKfycbydhWAfhswGHLsHFBq4qGnnbmfd7llD66D4LtWxbTS2lBbFAdJgcsRgJ0Z5brNDwdPN/exec" method="POST">
           <div class="form-row">
             <div class="form-group">
-              <label>Name</label>
-              <input type="text" name="name" placeholder="Your name" required>
+              <label for="f-name">Name</label>
+              <input type="text" name="name" id="f-name" placeholder="Your name" required>
             </div>
             <div class="form-group">
-              <label>Company</label>
-              <input type="text" name="company" placeholder="Company name">
+              <label for="f-company">Company</label>
+              <input type="text" name="company" id="f-company" placeholder="Company name">
             </div>
           </div>
           <div class="form-group">
-            <label>Work email</label>
-            <input type="email" name="email" placeholder="you@company.com" required>
+            <label for="f-email">Work email</label>
+            <input type="email" name="email" id="f-email" placeholder="you@company.com" required>
           </div>
           <div class="form-group">
-            <label>Practice</label>
-            <select name="practice" required>
+            <label for="f-practice">Practice</label>
+            <select name="practice" id="f-practice" required>
               <option value="" disabled selected>Select a practice</option>
               <option>Vision AI</option>
               <option>Agentic AI</option>
@@ -1069,16 +1074,21 @@ footer {
             </select>
           </div>
           <div class="form-group">
-            <label>What are you building?</label>
-            <textarea name="message" placeholder="The problem, the metric you care about, and any constraints we should know."></textarea>
+            <label for="f-message">What are you building?</label>
+            <textarea name="message" id="f-message" placeholder="The problem, the metric you care about, and any constraints we should know."></textarea>
           </div>
           <!-- Honeypot: hidden from humans, bots tend to fill every field -->
           <div class="hp-field" aria-hidden="true">
-            <label>Website</label>
-            <input type="text" name="website" tabindex="-1" autocomplete="off">
+            <label for="f-website">Website</label>
+            <input type="text" name="website" id="f-website" tabindex="-1" autocomplete="off">
           </div>
           <button type="submit" class="btn btn-primary form-submit">Send Message</button>
           <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+          <p class="form-privacy">
+            We use what you send here only to reply to your enquiry. We don't sell it,
+            share it with third parties, or use it to train models. Ask us at
+            <a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a> and we'll delete it.
+          </p>
         </form>
       </div>
     </div>
