@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="Production-grade AI for startups. Vision, Agentic, Physical, and Quantum AI.">
 
 <!-- Favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 0 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -440,6 +440,17 @@ section { padding: var(--section-pad) 0; }
   background-repeat: no-repeat; background-position: right 14px center;
 }
 .form-submit { margin-top: 8px; width: 100%; justify-content: center; padding: 14px 24px; font-size: 15px; }
+/* Honeypot — kept out of view and out of the tab order, never display:none
+   (some bots skip fields that are display:none) */
+.hp-field {
+  position: absolute; left: -9999px; width: 1px; height: 1px;
+  overflow: hidden; opacity: 0; pointer-events: none;
+}
+.form-status { margin-top: 14px; font-size: 14px; line-height: 1.5; display: none; }
+.form-status.show { display: block; }
+.form-status.ok { color: #4ade80; }
+.form-status.err { color: #f87171; }
+.form-status a { color: var(--accent-bright); text-decoration: underline; }
 
 /* ── FOOTER ── */
 footer {
@@ -977,7 +988,13 @@ footer {
             <label>What are you building?</label>
             <textarea name="message" placeholder="The problem, the metric you care about, and any constraints we should know."></textarea>
           </div>
+          <!-- Honeypot: hidden from humans, bots tend to fill every field -->
+          <div class="hp-field" aria-hidden="true">
+            <label>Website</label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <button type="submit" class="btn btn-primary form-submit">Send Message</button>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
@@ -1025,27 +1042,59 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
   const form = this;
   const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
+  const status = document.getElementById('form-status');
+
   const formData = new FormData(form);
   const data = {};
   formData.forEach((val, key) => { data[key] = val; });
+
+  // Honeypot: only bots fill this. Feign success so they don't retry.
+  if (data.website) {
+    form.reset();
+    showStatus('ok', 'Thanks — we\'ll be in touch shortly.');
+    return;
+  }
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  status.className = 'form-status';
+
+  // 15s ceiling so a hung request can't leave the button stuck on "Sending..."
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
   fetch(form.action, {
     method: 'POST',
-    mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(data)
-  }).then(() => {
-    btn.textContent = 'Sent — we\'ll be in touch';
-    btn.style.background = '#22c55e';
-    btn.style.boxShadow = '0 0 20px rgba(34,197,94,0.25)';
-    form.reset();
-    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.style.boxShadow = ''; btn.disabled = false; }, 3000);
-  }).catch(() => {
-    btn.textContent = 'Error — try again';
-    btn.style.background = '#ef4444';
-    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.disabled = false; }, 3000);
-  });
+    body: JSON.stringify(data),
+    signal: controller.signal
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(json => {
+      if (json.result !== 'success') throw new Error(json.error || 'Unexpected response');
+      form.reset();
+      showStatus('ok', 'Thanks — we\'ll get back to you within two business days.');
+      btn.textContent = 'Sent';
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; }, 2500);
+    })
+    .catch(err => {
+      // Never claim success we can't verify — give them a way through instead.
+      showStatus('err',
+        'Something went wrong sending that. Please email us directly at ' +
+        '<a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a>.');
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      console.error('Contact form submission failed:', err);
+    })
+    .finally(() => clearTimeout(timeout));
+
+  function showStatus(kind, html) {
+    status.className = 'form-status show ' + kind;
+    status.innerHTML = html;
+  }
 });
 </script>
 
