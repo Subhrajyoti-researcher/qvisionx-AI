@@ -120,7 +120,28 @@ nav {
   border: 1px solid var(--border);
 }
 .btn-outline:hover { border-color: var(--accent); background: var(--accent-glow); }
-.mobile-toggle { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; }
+.mobile-toggle {
+  display: none; background: none; border: none; color: var(--text-primary);
+  cursor: pointer; padding: 8px; margin: -8px; border-radius: 8px;
+}
+.mobile-toggle:hover { background: rgba(255,255,255,0.05); }
+.mobile-menu {
+  display: none;
+  position: absolute; top: 72px; left: 0; right: 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block; padding: 14px clamp(20px, 4vw, 48px);
+  font-size: 16px; font-weight: 500; color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, background 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:active, .mobile-menu a:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); }
 
 /* ── HERO ── */
 .hero {
@@ -501,7 +522,7 @@ footer {
 }
 .founder-photo {
   width: 240px; height: 240px; border-radius: 20px;
-  object-fit: cover; object-position: center top;
+  object-fit: cover; object-position: center 15%;
   border: 2px solid var(--border-accent);
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
@@ -540,14 +561,32 @@ footer {
   .founder-bio { margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 700px) {
-  .nav-links .link-item { display: none; }
+  .nav-links .link-item, .nav-links .nav-cta { display: none; }
   .mobile-toggle { display: block; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
   .footer-right { text-align: center; }
   .step { grid-template-columns: 56px 1fr; }
-  .hero-stats { gap: 24px; }
-  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .step-content { padding-bottom: 40px; }
+  .hero-stats { flex-direction: column; gap: 24px; margin-top: 48px; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .metric-card { padding: 28px 18px; }
+  /* 16px minimum prevents iOS Safari from auto-zooming on focus */
+  .form-group input, .form-group select, .form-group textarea { font-size: 16px; }
+  .form-card { padding: 28px 22px; }
+  .agent-visual { transform: scale(0.85); }
+  .practice-card { padding: 30px 26px; }
+  .stack-card { padding: 26px 22px; }
+}
+@media (max-width: 420px) {
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .agent-visual { transform: scale(0.72); }
+  .logo-tagline { display: none; }
+}
+@media (max-width: 360px) {
+  .metrics-grid { grid-template-columns: 1fr; }
+  .founder-photo { width: 200px; height: 200px; }
 }
 </style>
 </head>
@@ -560,11 +599,16 @@ footer {
     <div class="nav-links">
       <a href="#practices" class="link-item">Capabilities</a>
       <a href="#about" class="link-item">About</a>
-      <a href="#contact" class="btn btn-primary">Contact Sales</a>
-      <button class="mobile-toggle" onclick="document.querySelectorAll('.link-item').forEach(el => el.style.display = el.style.display === 'block' ? 'none' : 'block')" aria-label="Toggle menu">
+      <a href="#contact" class="btn btn-primary nav-cta">Contact Sales</a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#practices">Capabilities</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact Sales</a>
   </div>
 </nav>
 
@@ -846,7 +890,7 @@ footer {
 </section>
 
 <!-- FOUNDER -->
-<section>
+<section id="founder">
   <div class="container">
     <div class="section-label fade-up">Founder</div>
     <h2 class="section-title fade-up d1">Built by a founder who ships</h2>
@@ -963,6 +1007,19 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const toggle = document.getElementById('mobile-toggle');
+const menu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+menu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    menu.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  });
+});
 
 document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
