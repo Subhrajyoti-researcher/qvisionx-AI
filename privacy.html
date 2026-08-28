@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — QVisionX</title>
+<meta name="description" content="How QVisionX handles personal data. We set no cookies, run no analytics, and never use enquiry data to train models.">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Privacy Policy — QVisionX">
+<meta property="og:description" content="How QVisionX handles personal data. No cookies, no analytics, no tracking.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qvisionx.com/privacy">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg-primary: #06080d; --bg-card: #111722;
+  --border: rgba(255,255,255,0.06); --border-accent: rgba(99,147,255,0.25);
+  --text-primary: #f0f2f5; --text-secondary: #8b95a8; --text-muted: #78849a;
+  --accent: #6393ff; --accent-bright: #85b0ff; --accent-glow: rgba(99,147,255,0.15);
+  --green: #4ade80;
+  --gradient-accent: linear-gradient(135deg, #6393ff 0%, #8b5cf6 100%);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body); background: var(--bg-primary);
+  color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.container { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(6,8,13,0.85); border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px);
+  display: flex; align-items: center; justify-content: space-between; height: 68px;
+}
+.logo { font-family: var(--font-display); font-size: 19px; font-weight: 600; text-decoration: none; }
+.logo .logo-x {
+  font-weight: 700; background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-back {
+  font-size: 14px; font-weight: 500; color: var(--text-secondary);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+}
+.nav-back:hover { color: var(--text-primary); }
+.nav-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+header { padding: 124px 0 8px; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 600; color: var(--accent); margin-bottom: 16px;
+}
+.kicker::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+h1 {
+  font-family: var(--font-display); font-size: clamp(30px, 5vw, 42px);
+  font-weight: 700; letter-spacing: -1px; line-height: 1.12; margin-bottom: 14px;
+}
+.updated { font-size: 14px; color: var(--text-muted); }
+
+.summary {
+  margin: 32px 0 8px; padding: 22px 24px; border-radius: 13px;
+  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
+}
+.summary h2 {
+  font-family: var(--font-display); font-size: 15px; font-weight: 700;
+  color: var(--green); margin-bottom: 12px; letter-spacing: 0.2px;
+}
+.summary ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.summary li { display: flex; gap: 11px; font-size: 14.5px; color: var(--text-secondary); line-height: 1.55; }
+.summary svg {
+  width: 16px; height: 16px; stroke: var(--green); fill: none;
+  stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 3px;
+}
+
+section { padding: 34px 0 0; }
+h2.sec {
+  font-family: var(--font-display); font-size: 21px; font-weight: 700;
+  margin-bottom: 14px; letter-spacing: -0.3px;
+}
+h3 {
+  font-family: var(--font-display); font-size: 16px; font-weight: 600;
+  margin: 22px 0 9px;
+}
+p { font-size: 15.5px; color: var(--text-secondary); line-height: 1.75; }
+p + p { margin-top: 13px; }
+strong { color: var(--text-primary); font-weight: 600; }
+ul.list { list-style: none; margin: 13px 0; display: flex; flex-direction: column; gap: 10px; }
+ul.list li {
+  font-size: 15px; color: var(--text-secondary); line-height: 1.68;
+  padding-left: 18px; position: relative;
+}
+ul.list li::before {
+  content: ''; position: absolute; left: 0; top: 10px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+}
+a.inline { color: var(--accent-bright); text-decoration: underline; text-underline-offset: 2px; }
+
+table {
+  width: 100%; border-collapse: collapse; margin: 16px 0;
+  font-size: 14px; display: block; overflow-x: auto;
+}
+thead th {
+  text-align: left; padding: 11px 14px; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted);
+  border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap;
+}
+tbody td {
+  padding: 13px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-secondary); line-height: 1.55; vertical-align: top;
+}
+tbody td:first-child { color: var(--text-primary); font-weight: 500; white-space: nowrap; }
+
+.contact-box {
+  margin: 30px 0 70px; padding: 26px 28px; border-radius: 13px;
+  background: var(--bg-card); border: 1px solid var(--border-accent);
+}
+.contact-box h3 { margin-top: 0; }
+.contact-box p { font-size: 15px; }
+.contact-box a { color: var(--accent-bright); }
+
+footer { padding: 30px 0; border-top: 1px solid var(--border); }
+.footer-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px);
+  display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-size: 13px; color: var(--text-muted);
+}
+.footer-links { display: flex; gap: 18px; }
+.footer-links a { color: var(--text-muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">QVision<span class="logo-x">X</span></a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Back to site
+    </a>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="kicker">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated 29 August 2026</p>
+
+    <div class="summary">
+      <h2>The short version</h2>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>We set <strong>no cookies</strong> and run <strong>no analytics or tracking</strong> of any kind.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Images and video in our live demo <strong>never leave your device</strong>.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>We <strong>never sell or share</strong> your data, and never use it to train models.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>The only personal data we collect is what you type into our contact form.</span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2 class="sec">1. Who we are</h2>
+    <p>This site is operated by <strong>QVisionX (OPC) Private Limited</strong>, a one-person company registered in India and based in Bengaluru, Karnataka, India. For the purposes of the EU/UK General Data Protection Regulation, we are the <strong>data controller</strong> for personal data described in this policy.</p>
+    <p>You can reach us about anything in this policy at <a class="inline" href="mailto:hello@qvisionx.com">hello@qvisionx.com</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">2. What we collect</h2>
+
+    <h3>Information you give us</h3>
+    <p>If you submit our contact form, we receive the information you type into it: your <strong>name</strong>, <strong>work email address</strong>, <strong>company name</strong> (optional), the <strong>practice area</strong> you select, and your <strong>message</strong>. We ask for nothing else, and none of it is required beyond what the form marks as mandatory.</p>
+
+    <h3>Information collected automatically</h3>
+    <p>Our hosting provider keeps standard server logs, which typically include IP address, browser user-agent, requested URL and timestamp. These are generated by the infrastructure for reliability and security purposes. We do not use them to build profiles, and we do not combine them with contact form submissions.</p>
+
+    <h3>What we deliberately do not collect</h3>
+    <ul class="list">
+      <li>We set <strong>no cookies</strong>. There is no cookie banner on this site because there is nothing to consent to.</li>
+      <li>We use <strong>no analytics platform</strong> — no Google Analytics, no pixels, no session recording, no heatmaps.</li>
+      <li>We use <strong>no advertising or cross-site tracking</strong> technology.</li>
+      <li>We store nothing in your browser — no <code>localStorage</code>, <code>sessionStorage</code>, or IndexedDB.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">3. Our live demo</h2>
+    <p>Our object detection demo runs <strong>entirely inside your browser</strong>. Any image you upload, and any frame from your camera, is processed locally on your own device and is <strong>never transmitted to us or to anyone else</strong>. We do not receive it, store it, or see it. Nothing you put into the demo reaches our servers.</p>
+    <p>Loading the demo does download machine-learning libraries from a third-party content delivery network (see the table below), which necessarily reveals your IP address to that network — as any web request does. That is the only external interaction the demo involves.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">4. Why we use your data, and on what basis</h2>
+    <p>We use contact form submissions for exactly one purpose: <strong>to read and reply to your enquiry</strong>, and to carry on any conversation that follows from it.</p>
+    <p>Where the GDPR applies, our lawful basis is <strong>legitimate interests</strong> (responding to someone who has deliberately contacted us about our services) and, where a discussion progresses, <strong>steps taken at your request prior to entering into a contract</strong>.</p>
+    <p>We do not use your data for automated decision-making or profiling, and we do not use it to train machine-learning models.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">5. Who else is involved</h2>
+    <p>We keep third parties to a minimum. These are all of them:</p>
+    <table>
+      <thead>
+        <tr><th>Provider</th><th>Role</th><th>What it receives</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Railway</td><td>Website hosting</td><td>Standard server logs, including IP address</td></tr>
+        <tr><td>Google</td><td>Contact form processing and storage (Apps Script and Sheets)</td><td>The contents of your form submission</td></tr>
+        <tr><td>Google Fonts</td><td>Typeface delivery</td><td>Your IP address when a page loads</td></tr>
+        <tr><td>jsDelivr</td><td>Demo page libraries only</td><td>Your IP address, if you open the demo page</td></tr>
+        <tr><td>GoDaddy</td><td>Email and DNS</td><td>The contents of email you send us</td></tr>
+      </tbody>
+    </table>
+    <p>We <strong>do not sell your personal information</strong>, and we do not share it for advertising or any other purpose. No party outside this list receives it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">6. How long we keep it</h2>
+    <p>We keep enquiry data for as long as needed to respond and to maintain a record of our correspondence — normally up to <strong>24 months</strong> from our last exchange with you, unless our engagement or the law requires us to keep it longer. You can ask us to delete it sooner at any time, and we will.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">7. Your rights</h2>
+    <p>Depending on where you live, you may have some or all of the following rights over your personal data:</p>
+    <ul class="list">
+      <li><strong>Access</strong> — ask what we hold about you.</li>
+      <li><strong>Correction</strong> — have inaccurate data fixed.</li>
+      <li><strong>Deletion</strong> — ask us to erase what we hold.</li>
+      <li><strong>Objection and restriction</strong> — object to our processing, or ask us to limit it.</li>
+      <li><strong>Portability</strong> — receive your data in a machine-readable form.</li>
+      <li><strong>Non-discrimination</strong> — we will never treat you differently for exercising any of these.</li>
+    </ul>
+    <p>Email <a class="inline" href="mailto:hello@qvisionx.com">hello@qvisionx.com</a> and we will act within 30 days. We do not charge for this. Because we hold so little, most requests are simple to fulfil.</p>
+    <p>If you are in the EU or UK and are unhappy with our response, you may lodge a complaint with your local data protection authority.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">8. International transfers</h2>
+    <p>We operate from India, and the providers listed above process data in various countries including the United States. Where personal data of EU or UK residents is transferred outside those regions, our providers rely on recognised transfer mechanisms such as the European Commission's Standard Contractual Clauses.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">9. Security</h2>
+    <p>This site is served exclusively over HTTPS with HSTS enabled. Form submissions are transmitted over an encrypted connection and stored in an access-controlled Google account. No system is perfectly secure, but we keep the amount of data we hold deliberately small, which is the most reliable protection available.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">10. Children</h2>
+    <p>This site is aimed at businesses and is not directed at children. We do not knowingly collect personal data from anyone under 16. If you believe a child has sent us personal data, contact us and we will delete it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">11. Changes to this policy</h2>
+    <p>If we change this policy we will update the date at the top of this page. Material changes to how we handle personal data will be described here rather than made quietly.</p>
+
+    <div class="contact-box">
+      <h3>Questions about your data?</h3>
+      <p>Write to <a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a>. A real person reads it, and we reply within two business days.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>&copy; 2026 QVisionX (OPC) Private Limited · Bengaluru, India</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

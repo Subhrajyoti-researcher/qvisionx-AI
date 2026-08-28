@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use — QVisionX</title>
+<meta name="description" content="Terms governing use of the QVisionX website and its live demonstrations.">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Terms of Use — QVisionX">
+<meta property="og:description" content="Terms governing use of the QVisionX website and its live demonstrations.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qvisionx.com/terms">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg-primary: #06080d; --bg-card: #111722;
+  --border: rgba(255,255,255,0.06); --border-accent: rgba(99,147,255,0.25);
+  --text-primary: #f0f2f5; --text-secondary: #8b95a8; --text-muted: #78849a;
+  --accent: #6393ff; --accent-bright: #85b0ff;
+  --amber: #fbbf24;
+  --gradient-accent: linear-gradient(135deg, #6393ff 0%, #8b5cf6 100%);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body); background: var(--bg-primary);
+  color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.container { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(6,8,13,0.85); border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px);
+  display: flex; align-items: center; justify-content: space-between; height: 68px;
+}
+.logo { font-family: var(--font-display); font-size: 19px; font-weight: 600; text-decoration: none; }
+.logo .logo-x {
+  font-weight: 700; background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-back {
+  font-size: 14px; font-weight: 500; color: var(--text-secondary);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+}
+.nav-back:hover { color: var(--text-primary); }
+.nav-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+header { padding: 124px 0 8px; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 600; color: var(--accent); margin-bottom: 16px;
+}
+.kicker::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+h1 {
+  font-family: var(--font-display); font-size: clamp(30px, 5vw, 42px);
+  font-weight: 700; letter-spacing: -1px; line-height: 1.12; margin-bottom: 14px;
+}
+.updated { font-size: 14px; color: var(--text-muted); }
+.intro { margin-top: 26px; font-size: 16px; color: var(--text-secondary); line-height: 1.75; }
+
+section { padding: 32px 0 0; }
+h2.sec {
+  font-family: var(--font-display); font-size: 21px; font-weight: 700;
+  margin-bottom: 14px; letter-spacing: -0.3px;
+}
+h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin: 22px 0 9px; }
+p { font-size: 15.5px; color: var(--text-secondary); line-height: 1.75; }
+p + p { margin-top: 13px; }
+strong { color: var(--text-primary); font-weight: 600; }
+ul.list { list-style: none; margin: 13px 0; display: flex; flex-direction: column; gap: 10px; }
+ul.list li {
+  font-size: 15px; color: var(--text-secondary); line-height: 1.68;
+  padding-left: 18px; position: relative;
+}
+ul.list li::before {
+  content: ''; position: absolute; left: 0; top: 10px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+}
+a.inline { color: var(--accent-bright); text-decoration: underline; text-underline-offset: 2px; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px;
+  background: rgba(99,147,255,0.1); color: var(--accent-bright);
+  padding: 2px 6px; border-radius: 4px;
+}
+
+.callout {
+  margin: 18px 0; padding: 20px 22px; border-radius: 12px;
+  background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.22);
+}
+.callout p { color: #fcd34d; font-size: 14.5px; }
+.callout strong { color: #fde68a; }
+
+.contact-box {
+  margin: 30px 0 70px; padding: 26px 28px; border-radius: 13px;
+  background: var(--bg-card); border: 1px solid var(--border-accent);
+}
+.contact-box h3 { margin-top: 0; }
+.contact-box p { font-size: 15px; }
+.contact-box a { color: var(--accent-bright); }
+
+footer { padding: 30px 0; border-top: 1px solid var(--border); }
+.footer-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px);
+  display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-size: 13px; color: var(--text-muted);
+}
+.footer-links { display: flex; gap: 18px; }
+.footer-links a { color: var(--text-muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">QVision<span class="logo-x">X</span></a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Back to site
+    </a>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="kicker">Legal</div>
+    <h1>Terms of Use</h1>
+    <p class="updated">Last updated 29 August 2026</p>
+    <p class="intro">These terms govern your use of <strong>www.qvisionx.com</strong> and the demonstrations published on it. They cover this website only — any engagement we enter into with you as a client is governed by a separate signed agreement, which takes precedence over anything here.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2 class="sec">1. Who you are agreeing with</h2>
+    <p>This site is operated by <strong>QVisionX (OPC) Private Limited</strong>, a one-person company registered in India and based in Bengaluru, Karnataka, India ("QVisionX", "we", "us"). By using this site you accept these terms. If you do not accept them, please do not use the site.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">2. This site is information, not an offer</h2>
+    <p>Everything published here is provided for general information about our work. Nothing on this site constitutes a binding offer, a quotation, a warranty of any result, or professional advice you should act on without your own evaluation.</p>
+    <p>Descriptions of capabilities, timelines and approaches are illustrative. What we would actually do for you depends on your data, your constraints and your goals, and would be set out in a written agreement before any work began.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">3. The live demonstration</h2>
+    <p>Our object detection demo is published so you can see a working system rather than a description of one. Some things to be clear about:</p>
+    <ul class="list">
+      <li>It runs a <strong>general-purpose, third-party model</strong> (COCO-SSD via TensorFlow.js), not a system we built or trained. It is not representative of the accuracy of a purpose-built model.</li>
+      <li>It is provided <strong>"as is"</strong>, with no warranty of accuracy, availability or fitness for any purpose.</li>
+      <li>Detections may be wrong, missing or misleading. Performance varies with your device, browser and lighting.</li>
+      <li>All processing happens on your device. You are responsible for any image or video you choose to load into it, and for having the right to use that content.</li>
+    </ul>
+    <div class="callout">
+      <p><strong>Do not rely on the demo for any consequential decision.</strong> It must not be used for safety-critical, medical, legal, financial or security purposes, or in any setting where an incorrect detection could cause harm.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">4. Third-party names and models</h2>
+    <p>We write about third-party technology to explain how it works and where it fits. Referring to it does not imply any partnership, sponsorship or endorsement in either direction.</p>
+    <p>In particular, <strong>Isaac GR00T is a model published by NVIDIA Corporation</strong>, and NVIDIA and Isaac are trademarks of NVIDIA Corporation. <strong>QVisionX is not affiliated with, endorsed by, or sponsored by NVIDIA.</strong> Technical figures we quote about GR00T are drawn from NVIDIA's published model card and release notes and are attributed as such; they are not our own measurements. GR00T is distributed under the NVIDIA Open Model License, and any use you make of it is governed by that licence, not by these terms.</p>
+    <p>Similarly, TensorFlow.js and COCO-SSD are published by their respective authors under their own open-source licences. All other trademarks belong to their owners.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">5. Our content</h2>
+    <p>The text, design, diagrams, code and branding on this site are owned by QVisionX unless attributed otherwise. You are welcome to read it, link to it, and quote it with attribution. You may not republish it wholesale, or present it as your own work, without our written permission.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">6. Acceptable use</h2>
+    <p>Please do not use this site to do anything unlawful, to attempt to gain unauthorised access to any system, to interfere with its operation, or to submit anything through our contact form that is unlawful, misleading or infringing. We may block access where we reasonably believe any of this is happening.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">7. External links</h2>
+    <p>Where we link to other sites — model cards, documentation, research — we do so because we think they are useful. We do not control them and are not responsible for their content, availability or practices.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">8. Availability</h2>
+    <p>We make no promise that this site will be available uninterrupted or error-free. Parts of it — the demo in particular — depend on third-party services and on your own network and hardware. We may change, suspend or withdraw any part of the site at any time.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">9. Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, QVisionX will not be liable for any indirect, incidental, special or consequential loss, or for any loss of profit, revenue, data or business, arising from your use of this site or reliance on anything published on it.</p>
+    <p>Nothing in these terms excludes or limits liability where it would be unlawful to do so, including for fraud or for death or personal injury caused by negligence. Some jurisdictions do not permit certain exclusions, so parts of this section may not apply to you.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">10. Privacy</h2>
+    <p>Our handling of personal data is described in our <a class="inline" href="/privacy">Privacy Policy</a>, which forms part of these terms. In short: no cookies, no analytics, and nothing from the demo ever leaves your device.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">11. Governing law</h2>
+    <p>These terms are governed by the laws of <strong>India</strong>, and the courts of Bengaluru, Karnataka shall have exclusive jurisdiction over any dispute arising from them.</p>
+    <p>This applies to use of this website. If we enter into a client engagement with you, the governing law and dispute resolution provisions of that signed agreement will apply instead, and can be negotiated separately.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="sec">12. Changes</h2>
+    <p>We may update these terms from time to time. The date at the top of this page shows when they last changed, and continued use of the site after a change means you accept the revised version.</p>
+
+    <div class="contact-box">
+      <h3>Questions about these terms?</h3>
+      <p>Write to <a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a> and we will answer plainly.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>&copy; 2026 QVisionX (OPC) Private Limited · Bengaluru, India</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
