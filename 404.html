@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — QVisionX</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:#06080d; color:#f0f2f5; text-align:center; padding:24px;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.code {
+  font-family:'Space Grotesk',sans-serif; font-size:clamp(64px,14vw,110px);
+  font-weight:700; line-height:1; letter-spacing:-3px; margin-bottom:14px;
+  background:linear-gradient(135deg,#6393ff,#8b5cf6);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(20px,3.4vw,26px); font-weight:600; margin-bottom:12px; }
+p { font-size:15.5px; color:#8b95a8; line-height:1.7; max-width:400px; margin:0 auto 30px; }
+.links { display:flex; gap:11px; justify-content:center; flex-wrap:wrap; }
+a {
+  display:inline-flex; align-items:center; gap:7px; padding:11px 22px; border-radius:9px;
+  font-size:14px; font-weight:600; text-decoration:none; transition:all .22s;
+}
+.p { background:linear-gradient(135deg,#6393ff,#8b5cf6); color:#fff; box-shadow:0 0 20px rgba(99,147,255,.24); }
+.p:hover { box-shadow:0 0 30px rgba(99,147,255,.4); transform:translateY(-1px); }
+.o { color:#f0f2f5; border:1px solid rgba(255,255,255,.1); }
+.o:hover { border-color:#6393ff; background:rgba(99,147,255,.12); }
+</style>
+</head>
+<body>
+  <div>
+    <div class="code">404</div>
+    <h1>That page isn't here.</h1>
+    <p>The link may be out of date, or the page may have moved. The assistant in the corner can point you to the right place.</p>
+    <div class="links">
+      <a href="/" class="p">Back to home</a>
+      <a href="/demo" class="o">Live demo</a>
+    </div>
+  </div>
+  <script src="/chat.js" defer></script>
+</body>
+</html>
