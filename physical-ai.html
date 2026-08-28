@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical AI — Inside a Vision-Language-Action Model | QVisionX</title>
+<meta name="description" content="How NVIDIA Isaac GR00T N1.7 turns camera frames and a spoken instruction into robot motor commands — the dual-system architecture, the latency budget, and what actually breaks in deployment.">
+
+<meta property="og:title" content="Physical AI — Inside a Vision-Language-Action Model">
+<meta property="og:description" content="A walkthrough of GR00T N1.7's dual-system architecture and the latency budget that governs real robot control.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.qvisionx.com/physical-ai">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #06080d;
+  --bg-secondary: #0c1018;
+  --bg-card: #111722;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(99,147,255,0.25);
+  --text-primary: #f0f2f5;
+  --text-secondary: #8b95a8;
+  --text-muted: #5a6478;
+  --accent: #6393ff;
+  --accent-bright: #85b0ff;
+  --accent-glow: rgba(99,147,255,0.15);
+  --purple: #a78bfa;
+  --green: #4ade80;
+  --amber: #fbbf24;
+  --gradient-accent: linear-gradient(135deg, #6393ff 0%, #8b5cf6 100%);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --max-width: 1080px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body); background: var(--bg-primary);
+  color: var(--text-primary); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(6,8,13,0.85); border-bottom: 1px solid var(--border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: 0.3px; }
+.logo .logo-x {
+  font-weight: 700; background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.logo-tagline {
+  font-size: 9px; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--text-muted); margin-top: -2px;
+}
+.nav-back {
+  font-size: 14px; font-weight: 500; color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--text-primary); }
+.nav-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ── HEADER ── */
+.page-header { padding: 128px 0 24px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 600; color: var(--accent); margin-bottom: 18px;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+h1 {
+  font-family: var(--font-display); font-size: clamp(31px, 4.6vw, 50px);
+  font-weight: 700; letter-spacing: -1.2px; line-height: 1.1; margin-bottom: 20px;
+}
+h1 .grad {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.lede { font-size: 18px; color: var(--text-secondary); max-width: 660px; line-height: 1.7; }
+
+.model-ref {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 28px; padding: 15px 20px; border-radius: 11px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  font-size: 13.5px; color: var(--text-secondary);
+}
+.model-ref .chip {
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-bright);
+  background: var(--accent-glow); border: 1px solid var(--border-accent);
+  padding: 4px 11px; border-radius: 6px;
+}
+.model-ref a { color: var(--accent-bright); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── SECTION ── */
+section { padding: 60px 0; }
+h2 {
+  font-family: var(--font-display); font-size: clamp(25px, 3.2vw, 34px);
+  font-weight: 700; letter-spacing: -0.6px; margin-bottom: 16px; line-height: 1.2;
+}
+.sec-intro { font-size: 16.5px; color: var(--text-secondary); max-width: 660px; line-height: 1.75; margin-bottom: 36px; }
+p.body { font-size: 16px; color: var(--text-secondary); line-height: 1.78; max-width: 660px; }
+p.body + p.body { margin-top: 15px; }
+p.body strong { color: var(--text-primary); font-weight: 600; }
+
+/* ── PIPELINE ── */
+.pipeline { display: flex; flex-direction: column; gap: 12px; }
+.stage {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; transition: border-color 0.25s;
+}
+.stage.active { border-color: var(--border-accent); }
+.stage-head {
+  width: 100%; display: flex; align-items: center; gap: 16px;
+  padding: 20px 22px; cursor: pointer; background: none; border: none;
+  text-align: left; font-family: inherit; color: inherit;
+}
+.stage-head:hover { background: rgba(255,255,255,0.02); }
+.stage-icon {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-glow); border: 1px solid var(--border-accent);
+}
+.stage-icon svg { width: 19px; height: 19px; stroke: var(--accent); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.stage.s2 .stage-icon { background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.3); }
+.stage.s2 .stage-icon svg { stroke: var(--purple); }
+.stage.s1 .stage-icon { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.28); }
+.stage.s1 .stage-icon svg { stroke: var(--green); }
+.stage-titles { flex: 1; min-width: 0; }
+.stage-kicker {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.6px;
+  color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px;
+}
+.stage-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; }
+.stage-meta {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  white-space: nowrap; flex-shrink: 0;
+}
+.stage-chev { width: 17px; height: 17px; stroke: var(--text-muted); fill: none; stroke-width: 2; flex-shrink: 0; transition: transform 0.28s; }
+.stage.active .stage-chev { transform: rotate(180deg); }
+.stage-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
+}
+.stage.active .stage-body { grid-template-rows: 1fr; }
+.stage-body-inner { overflow: hidden; }
+.stage-content { padding: 0 22px 22px 80px; }
+.stage-content p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.7; }
+.stage-content p + p { margin-top: 11px; }
+.stage-content code {
+  font-family: var(--font-mono); font-size: 12.5px;
+  background: rgba(99,147,255,0.1); color: var(--accent-bright);
+  padding: 2px 6px; border-radius: 4px;
+}
+.stage-flow { display: flex; align-items: center; justify-content: center; padding: 2px 0; }
+.stage-flow svg { width: 17px; height: 17px; stroke: var(--text-muted); fill: none; stroke-width: 2; }
+
+/* ── LATENCY ── */
+.latency-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 30px; margin-top: 8px;
+}
+.lat-toggle { display: flex; gap: 9px; margin-bottom: 26px; flex-wrap: wrap; }
+.lat-btn {
+  padding: 9px 18px; border-radius: 8px; font-size: 13.5px; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer;
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--border); transition: all 0.2s;
+}
+.lat-btn:hover { color: var(--text-primary); }
+.lat-btn.on { background: var(--accent-glow); border-color: var(--accent); color: var(--accent-bright); }
+
+.lat-track {
+  position: relative; height: 62px; border-radius: 10px;
+  background: var(--bg-primary); border: 1px solid var(--border);
+  overflow: hidden; margin-bottom: 10px;
+}
+.lat-fill {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, rgba(99,147,255,0.35), rgba(139,92,246,0.35));
+  border-right: 2px solid var(--accent-bright);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 12px;
+}
+.lat-fill span {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+  color: var(--text-primary); white-space: nowrap;
+}
+.lat-scale {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 24px;
+}
+.lat-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.lat-stat { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.lat-stat .k {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.lat-stat .v { font-family: var(--font-display); font-size: 21px; font-weight: 700; }
+.lat-stat .v.good { color: var(--green); }
+.lat-stat .v.mid { color: var(--amber); }
+.lat-note {
+  margin-top: 20px; padding: 15px 17px; border-radius: 9px;
+  background: rgba(99,147,255,0.06); border: 1px solid rgba(99,147,255,0.14);
+  font-size: 13.5px; color: var(--text-secondary); line-height: 1.65;
+}
+
+/* ── IO GRID ── */
+.io-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+.io-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 13px; padding: 24px 22px;
+}
+.io-card h4 { font-family: var(--font-display); font-size: 15px; font-weight: 600; margin-bottom: 9px; }
+.io-card p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; }
+.io-card .tag {
+  display: inline-block; font-family: var(--font-mono); font-size: 11px;
+  color: var(--text-muted); background: rgba(255,255,255,0.04);
+  padding: 3px 8px; border-radius: 5px; margin-top: 12px;
+}
+
+/* ── REALITY LIST ── */
+.reality { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+.real-item {
+  display: flex; gap: 16px; padding: 22px 24px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px;
+}
+.real-num {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  color: var(--accent); flex-shrink: 0; padding-top: 2px;
+}
+.real-item h4 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 7px; }
+.real-item p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ── CTA ── */
+.cta {
+  margin: 20px 0 80px; padding: 34px 36px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(99,147,255,0.09), rgba(139,92,246,0.09));
+  border: 1px solid var(--border-accent);
+  display: flex; align-items: center; justify-content: space-between; gap: 26px; flex-wrap: wrap;
+}
+.cta h3 { font-family: var(--font-display); font-size: 21px; font-weight: 700; margin-bottom: 6px; }
+.cta p { font-size: 14.5px; color: var(--text-secondary); max-width: 460px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 9px; font-size: 14px; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer; border: none; transition: all 0.25s;
+}
+.btn-primary { background: var(--gradient-accent); color: #fff; box-shadow: 0 0 20px rgba(99,147,255,0.24); }
+.btn-primary:hover { box-shadow: 0 0 30px rgba(99,147,255,0.4); transform: translateY(-1px); }
+.btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+footer { padding: 34px 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.footer-right { font-size: 13px; color: var(--text-muted); }
+
+@media (max-width: 800px) {
+  .io-grid { grid-template-columns: 1fr; }
+  .lat-stats { grid-template-columns: 1fr; }
+  .stage-content { padding-left: 22px; }
+}
+@media (max-width: 560px) {
+  .page-header { padding-top: 108px; }
+  .stage-meta { display: none; }
+  .cta .btn { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <div>QVision<span class="logo-x">X</span></div>
+      <div class="logo-tagline">See. Decide. Act.</div>
+    </a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Back to site
+    </a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <div class="section-label">Physical AI</div>
+    <h1>From a camera frame to a motor command, <span class="grad">in under 90 milliseconds.</span></h1>
+    <p class="lede">Vision-language-action models are where perception, reasoning and control finally collapse into one system. This is a walkthrough of how NVIDIA's Isaac GR00T N1.7 actually works — and of the constraints that decide whether it survives contact with a real robot.</p>
+    <div class="model-ref">
+      <span class="chip">nvidia/GR00T-N1.7-3B</span>
+      <span>3B params · BF16 · NVIDIA Open Model License · <a href="https://huggingface.co/nvidia/GR00T-N1.7-3B" target="_blank" rel="noopener">model card ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>Why this class of model matters</h2>
+    <p class="body">For most of robotics history, perception, planning and control were three separate systems bolted together, each with its own failure modes and its own team. A vision-language-action model replaces that stack with a single learned policy: pixels and a sentence go in, joint commands come out.</p>
+    <p class="body">The reason it works is a <strong>split between deliberation and reflex</strong>. Reasoning about a task — "pick up the mug and put it in the sink" — is slow and only needs to happen occasionally. Producing smooth joint trajectories has to happen continuously, at control-loop rate. GR00T N1.7 runs these as two coupled systems rather than one monolith, and that division is the whole design.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>The pipeline</h2>
+    <p class="sec-intro">Each stage below expands. The numbers are from NVIDIA's published model card and release notes, not our measurements.</p>
+
+    <div class="pipeline" id="pipeline">
+
+      <div class="stage" data-stage>
+        <button class="stage-head" aria-expanded="false">
+          <div class="stage-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="stage-titles">
+            <div class="stage-kicker">Input</div>
+            <div class="stage-title">Observation &amp; instruction</div>
+          </div>
+          <div class="stage-meta">RGB + text + state</div>
+          <svg class="stage-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body"><div class="stage-body-inner"><div class="stage-content">
+          <p>Three streams arrive together: <strong>RGB frames at any resolution</strong> from one or more cameras, a <strong>natural-language instruction</strong>, and the robot's own <strong>proprioceptive state</strong> — joint positions, joint velocities, and end-effector poses.</p>
+          <p>That third stream is the one people underestimate. The model is not reasoning about an image in the abstract; it is reasoning about an image <em>given where the arm currently is</em>. Proprioception is what makes the difference between a plausible-looking action and a reachable one.</p>
+        </div></div></div>
+      </div>
+
+      <div class="stage-flow"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+
+      <div class="stage s2" data-stage>
+        <button class="stage-head" aria-expanded="false">
+          <div class="stage-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><circle cx="12" cy="6" r="1"/><path d="M7 20h10"/></svg>
+          </div>
+          <div class="stage-titles">
+            <div class="stage-kicker">System 2 — deliberation</div>
+            <div class="stage-title">Cosmos-Reason2-2B vision-language backbone</div>
+          </div>
+          <div class="stage-meta">slow · semantic</div>
+          <svg class="stage-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body"><div class="stage-body-inner"><div class="stage-content">
+          <p>The vision-language backbone consumes image tokens alongside the language instruction and emits <strong>high-level action tokens</strong>. This is where task decomposition and multi-step reasoning happen — the part that understands "in the sink" refers to a basin on the left, and that the mug must be grasped before it can be moved.</p>
+          <p>N1.7's headline change over the previous release is precisely here: an upgraded backbone (<code>Cosmos-Reason2-2B</code>) plus EgoScale pre-training. Better semantic grounding at the top of the stack propagates all the way down to the motion.</p>
+        </div></div></div>
+      </div>
+
+      <div class="stage-flow"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+
+      <div class="stage s1" data-stage>
+        <button class="stage-head" aria-expanded="false">
+          <div class="stage-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/></svg>
+          </div>
+          <div class="stage-titles">
+            <div class="stage-kicker">System 1 — reflex</div>
+            <div class="stage-title">32-layer diffusion transformer</div>
+          </div>
+          <div class="stage-meta">4 denoising steps</div>
+          <svg class="stage-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body"><div class="stage-body-inner"><div class="stage-content">
+          <p>A 32-layer DiT takes the backbone's action tokens together with the live robot state and <strong>denoises them into continuous motor commands</strong>. Generation is iterative rather than one-shot: it starts from noise and refines, which is what produces smooth, physically coherent trajectories instead of jittery per-frame guesses.</p>
+          <p>The step count is the tuning knob that matters most. NVIDIA reports deployment at <code>4 denoising steps</code> — few enough to hold real-time rates, enough to keep motion clean. Raising it buys marginal smoothness at direct cost to control frequency; this is the single most consequential trade-off in the whole pipeline.</p>
+        </div></div></div>
+      </div>
+
+      <div class="stage-flow"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+
+      <div class="stage" data-stage>
+        <button class="stage-head" aria-expanded="false">
+          <div class="stage-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="stage-titles">
+            <div class="stage-kicker">Output</div>
+            <div class="stage-title">Embodiment-specific action chunk</div>
+          </div>
+          <div class="stage-meta">joint commands</div>
+          <svg class="stage-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body"><div class="stage-body-inner"><div class="stage-content">
+          <p>Output is a chunk of continuous actions in the target robot's own action space. Different bodies have different joint counts and limits, so the model carries per-embodiment adapters. <code>UNITREE_G1</code>, <code>LIBERO_PANDA</code> and <code>OXE_WIDOWX</code> ship pre-registered; new hardware is added by registering an embodiment and supplying demonstrations in LeRobot dataset format.</p>
+          <p>Chunked output is also what makes the latency budget survivable — the policy emits a short horizon of actions at once, so the controller has something to execute while the next inference is still running.</p>
+        </div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>The latency budget</h2>
+    <p class="sec-intro">A policy that is accurate but slow is not a policy — it is a simulation. These are NVIDIA's published H100 figures for N1.7 at 4 denoising steps.</p>
+
+    <div class="latency-card">
+      <div class="lat-toggle">
+        <button class="lat-btn on" data-hz="11.7" data-name="PyTorch (baseline)">PyTorch baseline</button>
+        <button class="lat-btn" data-hz="35.9" data-name="TensorRT (optimised)">TensorRT optimised</button>
+      </div>
+
+      <div class="lat-track">
+        <div class="lat-fill" id="lat-fill" style="width:57%"><span id="lat-ms">85.5 ms</span></div>
+      </div>
+      <div class="lat-scale"><span>0 ms</span><span>75 ms</span><span>150 ms</span></div>
+
+      <div class="lat-stats">
+        <div class="lat-stat">
+          <div class="k">Control rate</div>
+          <div class="v" id="lat-hz">11.7 Hz</div>
+        </div>
+        <div class="lat-stat">
+          <div class="k">Per inference</div>
+          <div class="v" id="lat-per">85.5 ms</div>
+        </div>
+        <div class="lat-stat">
+          <div class="k">Suitability</div>
+          <div class="v mid" id="lat-verdict">Deliberate motion</div>
+        </div>
+      </div>
+
+      <div class="lat-note" id="lat-note">
+        At 11.7 Hz the policy issues a new action chunk roughly every 85 ms. That is workable for deliberate pick-and-place, where the scene is largely static between decisions. It is not enough for contact-rich or reactive tasks, where the world changes faster than the policy can respond.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>What the model actually consumes</h2>
+    <div class="io-grid">
+      <div class="io-card">
+        <h4>Vision</h4>
+        <p>RGB frames at arbitrary resolution, from one or several cameras. No depth sensor is required — geometry is inferred, which is what makes the model portable across hardware that never agrees on sensors.</p>
+        <span class="tag">any resolution</span>
+      </div>
+      <div class="io-card">
+        <h4>Language</h4>
+        <p>A plain-text instruction. This is the interface that replaces bespoke task programming — the same policy handles a new task because the sentence changed, not because someone wrote new code.</p>
+        <span class="tag">free-form text</span>
+      </div>
+      <div class="io-card">
+        <h4>Proprioception</h4>
+        <p>Joint positions, joint velocities and end-effector poses. Grounds the policy in the body it is actually driving, and is the stream most often mis-specified when porting to new hardware.</p>
+        <span class="tag">joint state + EEF</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>What actually breaks in deployment</h2>
+    <p class="sec-intro">The architecture is the easy part to read about. These are the things that decide whether a VLA policy ever leaves the lab.</p>
+    <div class="reality">
+      <div class="real-item">
+        <div class="real-num">01</div>
+        <div>
+          <h4>The 16 GB VRAM floor is a siting decision</h4>
+          <p>Inference needs at least 16 GB of VRAM, and the checkpoint is roughly 6 GB before activations. That rules out most edge hardware and forces an early architectural choice: put a Jetson-class device on the robot, or accept a network hop to a GPU elsewhere and budget for the round trip. Deciding this late is expensive.</p>
+        </div>
+      </div>
+      <div class="real-item">
+        <div class="real-num">02</div>
+        <div>
+          <h4>Denoising steps are a control-frequency dial</h4>
+          <p>Step count trades motion smoothness against control rate, directly and non-negotiably. It has to be tuned against the actual task dynamics, not left at whatever the example script shipped with — and the right value for a bin-picking cell is the wrong value for anything reactive.</p>
+        </div>
+      </div>
+      <div class="real-item">
+        <div class="real-num">03</div>
+        <div>
+          <h4>Embodiment mismatch fails quietly</h4>
+          <p>New hardware means registering an embodiment and collecting demonstrations in LeRobot format. Get a joint convention or a unit wrong and the model does not error — it produces confident, plausible, wrong actions. This is the failure mode that costs the most time, because nothing announces it.</p>
+        </div>
+      </div>
+      <div class="real-item">
+        <div class="real-num">04</div>
+        <div>
+          <h4>A gated dependency sits in the load path</h4>
+          <p>Every checkpoint pulls <code>nvidia/Cosmos-Reason2-2B</code> on first use, and access must be requested and approved. Worth discovering during planning rather than on the morning of an integration deadline.</p>
+        </div>
+      </div>
+      <div class="real-item">
+        <div class="real-num">05</div>
+        <div>
+          <h4>Sim-to-real is still the long pole</h4>
+          <p>A policy that succeeds in Isaac Sim has demonstrated that it works under that renderer's lighting, that contact model, and those object meshes. Lighting drift, worn grippers and unmodelled friction remain the usual reasons a demo that works on Friday fails on Monday.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Where we fit</h2>
+    <p class="body">QVisionX works hands-on with the Isaac GR00T stack: registering new embodiments, preparing demonstration datasets in LeRobot format, tuning the denoising/latency trade-off against real task dynamics, and getting policies off a workstation and onto hardware that has to run them every day.</p>
+    <p class="body">If you are evaluating whether a VLA policy is the right answer for your robot — or you already have one that behaves in simulation and not on the floor — that second problem is the one worth talking about.</p>
+
+    <div class="cta">
+      <div>
+        <h3>Working on Physical AI?</h3>
+        <p>Tell us what the robot has to do and what it currently gets wrong.</p>
+      </div>
+      <a href="/#contact" class="btn btn-primary">
+        Start a conversation
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="logo">QVision<span class="logo-x">X</span></div>
+    <div class="footer-right">
+      GR00T is an NVIDIA model. QVisionX is not affiliated with NVIDIA.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── expandable pipeline stages ──
+  var stages = document.querySelectorAll('[data-stage]');
+  Array.prototype.forEach.call(stages, function (stage) {
+    var head = stage.querySelector('.stage-head');
+    head.addEventListener('click', function () {
+      var open = stage.classList.toggle('active');
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+  // Open the first stage so the pattern is discoverable.
+  if (stages.length) {
+    stages[0].classList.add('active');
+    stages[0].querySelector('.stage-head').setAttribute('aria-expanded', 'true');
+  }
+
+  // ── latency comparator ──
+  var SCALE_MAX = 150;   // ms, matches the printed axis
+  var fill    = document.getElementById('lat-fill');
+  var msLabel = document.getElementById('lat-ms');
+  var hzEl    = document.getElementById('lat-hz');
+  var perEl   = document.getElementById('lat-per');
+  var verdict = document.getElementById('lat-verdict');
+  var note    = document.getElementById('lat-note');
+
+  var NOTES = {
+    '11.7': 'At 11.7 Hz the policy issues a new action chunk roughly every 85 ms. That is workable for deliberate pick-and-place, where the scene is largely static between decisions. It is not enough for contact-rich or reactive tasks, where the world changes faster than the policy can respond.',
+    '35.9': 'TensorRT compilation takes the same model to 35.9 Hz — about 28 ms per inference, roughly a 3x improvement for no change in weights. This is the difference between a policy that looks hesitant and one that looks deliberate, and it is why compilation is a deployment requirement rather than an optimisation to get to later.'
+  };
+
+  document.querySelectorAll('.lat-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.lat-btn').forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+
+      var hz = parseFloat(btn.dataset.hz);
+      var ms = 1000 / hz;
+
+      fill.style.width = Math.min(100, (ms / SCALE_MAX) * 100) + '%';
+      msLabel.textContent = ms.toFixed(1) + ' ms';
+      hzEl.textContent = hz + ' Hz';
+      perEl.textContent = ms.toFixed(1) + ' ms';
+
+      var fast = hz >= 30;
+      verdict.textContent = fast ? 'Reactive control' : 'Deliberate motion';
+      verdict.className = 'v ' + (fast ? 'good' : 'mid');
+      note.textContent = NOTES[btn.dataset.hz];
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

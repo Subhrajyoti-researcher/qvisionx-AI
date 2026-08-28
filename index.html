@@ -286,6 +286,16 @@ section { padding: var(--section-pad) 0; }
   animation: pulse 2s ease-in-out infinite;
 }
 .practice-card.quantum::before { background: linear-gradient(135deg, #a78bfa 0%, #6393ff 100%); }
+.practice-link {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 18px;
+  font-size: 13px; font-weight: 600; color: var(--accent-bright);
+  transition: gap 0.22s;
+}
+.practice-link:hover { gap: 11px; }
+.practice-link svg {
+  width: 14px; height: 14px; stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
 
 /* ── AGENT BANNER ── */
 .agent-banner {
@@ -737,6 +747,10 @@ footer {
         </div>
         <h3>Physical AI</h3>
         <p>Connect perception, reasoning, and action to build intelligent systems for robotics, edge AI, and real-world automation.</p>
+        <a href="/physical-ai" class="practice-link">
+          Inside a vision-language-action model
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
 
       <div class="practice-card quantum fade-up d4">
