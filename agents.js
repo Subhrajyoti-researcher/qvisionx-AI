@@ -112,9 +112,13 @@ function specialist(key) {
         role: 'system',
         content:
           `You are the ${spec.label} specialist at QVisionX, an applied-AI studio. ${spec.brief}\n\n` +
-          'Be concrete and brief: 3 to 5 short sentences, plain prose, no headings or bullet characters. ' +
-          'State assumptions explicitly rather than hedging. Never invent client names, benchmarks or prices. ' +
-          'Do not promise a specific accuracy or delivery date.'
+          'CRITICAL: never ask the reader questions and never say you need more information before you can answer. ' +
+          'You are producing a first-pass assessment from limited information, which is exactly the job. Where a ' +
+          'fact is missing, state a reasonable assumption in the form "Assuming X..." and reason from it. If a ' +
+          'detail would change your answer, name it as something to confirm — as a statement, not a question.\n\n' +
+          'Write 3 to 5 short sentences of plain prose. Absolutely no markdown: no asterisks, no bold, no headings, ' +
+          'no bullet points, no numbered lists. Never invent client names, benchmarks or prices, and never promise ' +
+          'a specific accuracy or delivery date.'
       },
       {
         role: 'user',
@@ -141,7 +145,8 @@ async function synthesiser(state) {
         'You are the supervising agent again. Fold the specialists\' notes into a short scoping brief for the visitor.\n\n' +
         'Structure it as three short paragraphs of plain prose: what the system would have to do and how success is ' +
         'measured; the approach the specialists converged on; and the biggest risk or open question to resolve first.\n\n' +
-        'Be direct and specific. No headings, no bullet characters, no markdown. Never invent metrics, client names, ' +
+        'Be direct and specific. Absolutely no markdown: no asterisks, no bold, no headings, no bullet points, no ' +
+        'numbered lists. Never ask the reader questions. Never invent metrics, client names, ' +
         'prices or timelines. If the specialists disagreed, say so rather than smoothing it over. ' +
         'End with one sentence noting this is a starting point that a real engagement would pressure-test against actual data.'
     },
