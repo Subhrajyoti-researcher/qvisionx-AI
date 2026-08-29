@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI — Watch a Supervisor Agent Plan | QVisionX</title>
+<meta name="description" content="A live LangGraph supervisor agent decomposes your AI problem, dispatches three specialist sub-agents in parallel, and synthesises a scoping brief. Runs for real.">
+
+<meta property="og:title" content="Agentic AI — Watch a Supervisor Agent Plan">
+<meta property="og:description" content="A live supervisor/sub-agent graph that scopes a real AI problem in front of you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qvisionx.com/agentic">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --bg-primary:#06080d; --bg-secondary:#0c1018; --bg-card:#111722;
+  --border:rgba(255,255,255,.06); --border-accent:rgba(99,147,255,.25);
+  --text-primary:#f0f2f5; --text-secondary:#8b95a8; --text-muted:#78849a;
+  --accent:#6393ff; --accent-bright:#85b0ff; --accent-glow:rgba(99,147,255,.15);
+  --purple:#a78bfa; --green:#4ade80; --amber:#fbbf24;
+  --gradient-accent:linear-gradient(135deg,#6393ff 0%,#8b5cf6 100%);
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --font-display:'Space Grotesk','Inter',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --max-width:1000px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);
+ line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);
+ -webkit-backdrop-filter:blur(20px);background:rgba(6,8,13,.85);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px);
+ display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--font-display);font-size:20px;font-weight:600}
+.logo .logo-x{font-weight:700;background:var(--gradient-accent);
+ -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-tagline{font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
+ color:var(--text-muted);margin-top:-2px}
+.nav-back{font-size:14px;font-weight:500;color:var(--text-secondary);display:inline-flex;
+ align-items:center;gap:8px;transition:color .2s}
+.nav-back:hover{color:var(--text-primary)}
+.nav-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
+header{padding:126px 0 32px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;text-transform:uppercase;
+ letter-spacing:2px;font-weight:600;color:var(--accent);margin-bottom:17px}
+.kicker::before{content:'';width:24px;height:1px;background:var(--accent)}
+h1{font-family:var(--font-display);font-size:clamp(30px,4.6vw,48px);font-weight:700;
+ letter-spacing:-1.1px;line-height:1.1;margin-bottom:18px}
+h1 .grad{background:var(--gradient-accent);-webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;background-clip:text}
+.lede{font-size:17.5px;color:var(--text-secondary);max-width:660px;line-height:1.72}
+.stackline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:24px;
+ padding:14px 18px;border-radius:11px;background:var(--bg-card);border:1px solid var(--border);
+ font-size:13.5px;color:var(--text-secondary)}
+.stackline .chip{font-family:var(--font-mono);font-size:12.5px;color:var(--accent-bright);
+ background:var(--accent-glow);border:1px solid var(--border-accent);padding:4px 11px;border-radius:6px}
+
+section{padding:26px 0}
+h2{font-family:var(--font-display);font-size:clamp(23px,3vw,30px);font-weight:700;
+ letter-spacing:-.5px;margin-bottom:14px}
+.sec-intro{font-size:16px;color:var(--text-secondary);max-width:660px;line-height:1.72;margin-bottom:26px}
+
+/* ── input ── */
+.runner{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:26px}
+.runner label{display:block;font-size:14px;font-weight:600;margin-bottom:9px}
+.runner textarea{width:100%;min-height:92px;resize:vertical;font-family:inherit;font-size:16px;
+ line-height:1.6;color:var(--text-primary);background:var(--bg-primary);
+ border:1px solid var(--border);border-radius:11px;padding:13px 15px;outline:none}
+.runner textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.runner textarea::placeholder{color:var(--text-muted)}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.examples button{font-family:inherit;font-size:12.5px;color:var(--accent-bright);
+ background:rgba(99,147,255,.09);border:1px solid rgba(99,147,255,.24);padding:7px 13px;
+ border-radius:100px;cursor:pointer;transition:background .18s}
+.examples button:hover{background:rgba(99,147,255,.19)}
+.runrow{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;
+ border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;
+ border:none;transition:all .22s}
+.btn-primary{background:var(--gradient-accent);color:#fff;box-shadow:0 0 18px rgba(99,147,255,.22)}
+.btn-primary:hover:not(:disabled){box-shadow:0 0 28px rgba(99,147,255,.36);transform:translateY(-1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.runnote{font-size:12.5px;color:var(--text-muted)}
+
+/* ── graph ── */
+.graph{margin-top:26px;display:none}
+.graph.on{display:block}
+.tier{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.node{background:var(--bg-card);border:1px solid var(--border);border-radius:13px;
+ padding:15px 18px;min-width:180px;flex:0 1 232px;transition:all .3s}
+.node.wait{opacity:.45}
+.node.run{border-color:var(--accent);box-shadow:0 0 26px rgba(99,147,255,.22)}
+.node.done{border-color:rgba(74,222,128,.4)}
+.node-top{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.node-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+ background:var(--accent-glow);border:1px solid var(--border-accent);flex-shrink:0}
+.node-ico svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.node.sup .node-ico{background:rgba(167,139,250,.14);border-color:rgba(167,139,250,.34)}
+.node.sup .node-ico svg{stroke:var(--purple)}
+.node.done .node-ico{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.3)}
+.node.done .node-ico svg{stroke:var(--green)}
+.node-name{font-family:var(--font-display);font-size:14px;font-weight:600}
+.node-state{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;
+ letter-spacing:1px;color:var(--text-muted)}
+.node.run .node-state{color:var(--accent-bright)}
+.node.done .node-state{color:var(--green)}
+.spin{width:11px;height:11px;border-radius:50%;border:2px solid rgba(99,147,255,.25);
+ border-top-color:var(--accent);animation:sp .8s linear infinite;display:inline-block;vertical-align:-1px;margin-right:5px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.arrows{display:flex;justify-content:center;padding:9px 0}
+.arrows svg{width:18px;height:18px;stroke:var(--text-muted);fill:none;stroke-width:2}
+.fanlabel{text-align:center;font-family:var(--font-mono);font-size:10.5px;
+ text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:3px 0 9px}
+
+/* ── output ── */
+.out{margin-top:26px;display:none;flex-direction:column;gap:15px}
+.out.on{display:flex}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px 24px}
+.card.plan{border-color:rgba(167,139,250,.3);background:linear-gradient(180deg,rgba(167,139,250,.05),transparent)}
+.card.final{border-color:var(--border-accent);background:linear-gradient(180deg,rgba(99,147,255,.06),transparent)}
+.card-h{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.card-h b{font-family:var(--font-display);font-size:15px;font-weight:600}
+.tag{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:1px;
+ padding:3px 9px;border-radius:5px;background:rgba(255,255,255,.05);color:var(--text-muted)}
+.tag.sup{background:rgba(167,139,250,.12);color:var(--purple)}
+.kv{font-size:14.5px;color:var(--text-secondary);line-height:1.7}
+.kv b{color:var(--text-primary);font-weight:600}
+.kv+.kv{margin-top:7px}
+.q{font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:10px;line-height:1.6}
+.card p.body{font-size:14.5px;color:var(--text-secondary);line-height:1.72;white-space:pre-wrap}
+.err{border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.06);color:#fca5a5;
+ font-size:14.5px;padding:16px 20px;border-radius:12px;border-width:1px;border-style:solid}
+.err a{color:var(--accent-bright);text-decoration:underline}
+
+/* ── notes ── */
+.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.note{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:21px 22px}
+.note h4{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px}
+.note p{font-size:13.5px;color:var(--text-secondary);line-height:1.65}
+.cta{margin:34px 0 80px;padding:30px 32px;border-radius:15px;
+ background:linear-gradient(135deg,rgba(99,147,255,.09),rgba(139,92,246,.09));
+ border:1px solid var(--border-accent);display:flex;align-items:center;justify-content:space-between;
+ gap:24px;flex-wrap:wrap}
+.cta h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:5px}
+.cta p{font-size:14px;color:var(--text-secondary)}
+footer{padding:32px 0;border-top:1px solid var(--border)}
+.footer-inner{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px);
+ display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.footer-right{font-size:13px;color:var(--text-muted);text-align:right}
+.footer-legal{display:flex;gap:16px;justify-content:flex-end;margin-top:9px}
+.footer-legal a{font-size:12.5px;color:var(--text-muted)}
+.footer-legal a:hover{color:var(--text-primary)}
+
+@media (max-width:760px){
+  .notes-grid{grid-template-columns:1fr}
+  .node{flex:1 1 100%}
+  .cta .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><div>QVision<span class="logo-x">X</span></div>
+      <div class="logo-tagline">See. Decide. Act.</div></a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Back to site</a>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="kicker">Agentic AI · Live</div>
+    <h1>A supervisor agent, <span class="grad">planning in front of you.</span></h1>
+    <p class="lede">Describe a problem you actually have. A supervisor agent will restate it, decide what needs investigating, dispatch three specialists concurrently, then fold their findings into a scoping brief. This is the same first move as a real engagement — run live, not pre-recorded.</p>
+    <div class="stackline">
+      <span class="chip">LangGraph</span>
+      <span>StateGraph · fan-out / fan-in · 5 model calls per run, executed server-side</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="runner">
+      <label for="problem">What are you trying to build or fix?</label>
+      <textarea id="problem" placeholder="e.g. We run a bottling line and want to catch mislabelled bottles before they reach packing."></textarea>
+      <div class="examples" id="examples"></div>
+      <div class="runrow">
+        <button class="btn btn-primary" id="run">
+          Run the agents
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <span class="runnote" id="runnote">Takes about 15–30 seconds.</span>
+      </div>
+    </div>
+
+    <div class="graph" id="graph">
+      <div class="tier">
+        <div class="node sup wait" id="n-supervisor">
+          <div class="node-top">
+            <div class="node-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+            <div><div class="node-name">Supervisor</div><div class="node-state">waiting</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="arrows"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+      <div class="fanlabel">fan-out · concurrent</div>
+      <div class="tier" id="workers"></div>
+      <div class="fanlabel" style="padding-top:9px">fan-in · waits for all three</div>
+      <div class="arrows"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+      <div class="tier">
+        <div class="node sup wait" id="n-synthesiser">
+          <div class="node-top">
+            <div class="node-ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+            <div><div class="node-name">Synthesiser</div><div class="node-state">waiting</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="out" id="out"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>What this is, honestly</h2>
+    <div class="notes-grid">
+      <div class="note">
+        <h4>It really runs</h4>
+        <p>Every run executes a LangGraph StateGraph on our server: one supervisor call, three specialist calls dispatched concurrently, and a synthesis call. Nothing here is scripted or cached, which is also why it takes a few seconds.</p>
+      </div>
+      <div class="note">
+        <h4>Why a supervisor at all</h4>
+        <p>One prompt asked to do everything produces vague answers. Splitting the work gives each agent a narrow remit and a specific question, and forces the disagreements between them into the open where you can see them.</p>
+      </div>
+      <div class="note">
+        <h4>Fan-out is a latency decision</h4>
+        <p>The specialists do not depend on each other, so they run in parallel and the round costs one call's latency instead of three. Where steps genuinely depend on each other, that option disappears — which is exactly the trade-off graph design is for.</p>
+      </div>
+      <div class="note">
+        <h4>What it deliberately won't do</h4>
+        <p>No prices, no timelines, no promised accuracy. It reasons from one paragraph with no access to your data, so treat it as a structured first pass — the useful part is the questions it raises, not the answers.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <h3>Want this run properly?</h3>
+        <p>With your data, your constraints, and a target worth measuring.</p>
+      </div>
+      <a href="/#contact" class="btn btn-primary">Start a conversation
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo">QVision<span class="logo-x">X</span></div>
+    <div class="footer-right">&copy; 2026 QVisionX (OPC) Private Limited &middot; Bengaluru, India
+      <div class="footer-legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="/chat.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  var EXAMPLES = [
+    'We run a bottling line and want to catch mislabelled bottles before they reach packing.',
+    'Our support team re-types information from PDF invoices into an internal system all day.',
+    'We want a warehouse robot to find and pick a specific box when someone asks for it by name.'
+  ];
+
+  var problem  = document.getElementById('problem');
+  var runBtn   = document.getElementById('run');
+  var runNote  = document.getElementById('runnote');
+  var graph    = document.getElementById('graph');
+  var workers  = document.getElementById('workers');
+  var out      = document.getElementById('out');
+  var busy     = false;
+
+  var ex = document.getElementById('examples');
+  EXAMPLES.forEach(function (t) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = t.length > 52 ? t.slice(0, 52) + '…' : t;
+    b.title = t;
+    b.addEventListener('click', function () { problem.value = t; problem.focus(); });
+    ex.appendChild(b);
+  });
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  function setNode(id, state) {
+    var el = document.getElementById('n-' + id);
+    if (!el) return;
+    el.classList.remove('wait', 'run', 'done');
+    el.classList.add(state);
+    var s = el.querySelector('.node-state');
+    if (state === 'run')  s.innerHTML = '<span class="spin"></span>running';
+    if (state === 'done') s.textContent = 'done';
+    if (state === 'wait') s.textContent = 'waiting';
+  }
+
+  function buildWorkers(list) {
+    workers.innerHTML = '';
+    list.forEach(function (w) {
+      var d = document.createElement('div');
+      d.className = 'node wait';
+      d.id = 'n-' + w.key;
+      d.innerHTML =
+        '<div class="node-top">' +
+          '<div class="node-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>' +
+          '<div><div class="node-name">' + esc(w.label) + '</div><div class="node-state">waiting</div></div>' +
+        '</div>';
+      workers.appendChild(d);
+    });
+  }
+
+  function card(html, cls) {
+    var d = document.createElement('div');
+    d.className = 'card ' + (cls || '');
+    d.innerHTML = html;
+    out.appendChild(d);
+    return d;
+  }
+
+  function run() {
+    var text = problem.value.trim();
+    if (busy) return;
+    if (text.length < 15) {
+      problem.focus();
+      runNote.textContent = 'Give the agents a sentence or two to work with.';
+      return;
+    }
+
+    busy = true;
+    runBtn.disabled = true;
+    runBtn.textContent = 'Running…';
+    runNote.textContent = 'Agents are working — this is a live run.';
+    out.className = 'out on';
+    out.innerHTML = '';
+    graph.className = 'graph on';
+    workers.innerHTML = '';
+    setNode('supervisor', 'run');
+    setNode('synthesiser', 'wait');
+
+    var pending = 0;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 90000);
+
+    fetch('/api/scope', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ problem: text }),
+      signal: ctrl.signal
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.json().catch(function(){return {};}).then(function (j) {
+            throw new Error(j.message || 'The demo is unavailable right now.');
+          });
+        }
+        var reader = res.body.getReader(), dec = new TextDecoder(), buf = '';
+
+        function pump() {
+          return reader.read().then(function (r) {
+            if (r.done) return;
+            buf += dec.decode(r.value, { stream: true });
+            var frames = buf.split('\n\n'); buf = frames.pop();
+
+            frames.forEach(function (f) {
+              var ev = 'message', data = '';
+              f.split('\n').forEach(function (l) {
+                if (l.indexOf('event:') === 0) ev = l.slice(6).trim();
+                else if (l.indexOf('data:') === 0) data += l.slice(5).trim();
+              });
+              if (!data) return;
+              var p; try { p = JSON.parse(data); } catch (e) { return; }
+
+              if (ev === 'start') {
+                buildWorkers(p.specialists);
+                pending = p.specialists.length;
+              } else if (ev === 'plan') {
+                setNode('supervisor', 'done');
+                card(
+                  '<div class="card-h"><span class="tag sup">Supervisor</span><b>Plan</b></div>' +
+                  '<div class="kv"><b>Restated:</b> ' + esc(p.restated) + '</div>' +
+                  '<div class="kv"><b>Metric to move:</b> ' + esc(p.metric) + '</div>',
+                  'plan'
+                );
+                Object.keys(p.questions || {}).forEach(function (k) { setNode(k, 'run'); });
+              } else if (ev === 'finding') {
+                setNode(p.key, 'done');
+                card(
+                  '<div class="card-h"><span class="tag">Sub-agent</span><b>' + esc(p.label) + '</b></div>' +
+                  '<div class="q">Asked: ' + esc(p.question) + '</div>' +
+                  '<p class="body">' + esc(p.text) + '</p>'
+                );
+                if (--pending === 0) setNode('synthesiser', 'run');
+              } else if (ev === 'summary') {
+                setNode('synthesiser', 'done');
+                card(
+                  '<div class="card-h"><span class="tag sup">Supervisor</span><b>Scoping brief</b></div>' +
+                  '<p class="body">' + esc(p.text) + '</p>',
+                  'final'
+                );
+              } else if (ev === 'error') {
+                throw new Error(p.message || 'Something went wrong.');
+              }
+            });
+            return pump();
+          });
+        }
+        return pump();
+      })
+      .catch(function (err) {
+        ['supervisor','synthesiser'].forEach(function (k) {
+          var el = document.getElementById('n-' + k);
+          if (el && el.classList.contains('run')) setNode(k, 'wait');
+        });
+        var d = document.createElement('div');
+        d.className = 'err';
+        d.innerHTML = (err && err.name === 'AbortError')
+          ? 'That took longer than expected. Please try again, or <a href="/#contact">get in touch</a>.'
+          : esc((err && err.message) || 'Something went wrong.') +
+            ' <a href="/#contact">Get in touch</a> and we will scope it with you.';
+        out.appendChild(d);
+      })
+      .finally(function () {
+        clearTimeout(timer);
+        busy = false;
+        runBtn.disabled = false;
+        runBtn.innerHTML = 'Run the agents <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        runNote.textContent = 'Takes about 15–30 seconds.';
+      });
+  }
+
+  runBtn.addEventListener('click', run);
+})();
+</script>
+
+</body>
+</html>

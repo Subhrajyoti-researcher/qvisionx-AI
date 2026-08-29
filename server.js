@@ -3,6 +3,7 @@
 const path = require('path');
 const express = require('express');
 const Anthropic = require('@anthropic-ai/sdk');
+const { runScopingGraph, SPECIALISTS } = require('./agents');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,48 +40,66 @@ app.use((req, res, next) => {
 // capped on three axes: per-IP burst, per-IP daily, and a global daily
 // ceiling that fails closed. In-memory is sufficient — Railway runs this
 // as a single instance, and a restart resetting the counters is acceptable.
-const WINDOW_MS      = 15 * 60 * 1000;
-const MAX_PER_WINDOW = 15;
-const MAX_PER_DAY_IP = 60;
-const MAX_PER_DAY_ALL = Number(process.env.CHAT_DAILY_CAP || 1500);
-
-const buckets = new Map();           // ip -> { hits:[ts], day:string, dayCount:n }
-let globalDay = today();
-let globalCount = 0;
+const WINDOW_MS = 15 * 60 * 1000;
 
 function today() { return new Date().toISOString().slice(0, 10); }
 
-setInterval(() => {
-  const cutoff = Date.now() - WINDOW_MS;
-  for (const [ip, b] of buckets) {
-    b.hits = b.hits.filter(t => t > cutoff);
-    if (!b.hits.length && b.day !== today()) buckets.delete(ip);
-  }
-}, 5 * 60 * 1000).unref();
+// One limiter per endpoint, because their costs differ by roughly 5x:
+// a chat turn is one model call, a scoping run is five.
+function makeLimiter(opts) {
+  const buckets = new Map();         // ip -> { hits:[ts], day, dayCount }
+  let globalDay = today();
+  let globalCount = 0;
 
-function rateLimit(req, res, next) {
-  const now = Date.now();
-  const day = today();
+  setInterval(() => {
+    const cutoff = Date.now() - WINDOW_MS;
+    for (const [ip, b] of buckets) {
+      b.hits = b.hits.filter(t => t > cutoff);
+      if (!b.hits.length && b.day !== today()) buckets.delete(ip);
+    }
+  }, 5 * 60 * 1000).unref();
 
-  if (day !== globalDay) { globalDay = day; globalCount = 0; }
-  if (globalCount >= MAX_PER_DAY_ALL) {
-    return res.status(429).json({ error: 'busy', message: "The assistant is at today's limit. Please use the contact form and we'll reply personally." });
-  }
+  return function (req, res, next) {
+    const now = Date.now();
+    const day = today();
 
-  const ip = req.ip || 'unknown';
-  let b = buckets.get(ip);
-  if (!b || b.day !== day) { b = { hits: [], day, dayCount: 0 }; buckets.set(ip, b); }
+    if (day !== globalDay) { globalDay = day; globalCount = 0; }
+    if (globalCount >= opts.dailyAll) {
+      return res.status(429).json({ error: 'busy', message: opts.busyMessage });
+    }
 
-  b.hits = b.hits.filter(t => t > now - WINDOW_MS);
-  if (b.hits.length >= MAX_PER_WINDOW || b.dayCount >= MAX_PER_DAY_IP) {
-    return res.status(429).json({ error: 'rate_limited', message: "That's a lot of questions in a short time. Please email hello@qvisionx.com and a human will pick it up." });
-  }
+    const ip = req.ip || 'unknown';
+    let b = buckets.get(ip);
+    if (!b || b.day !== day) { b = { hits: [], day, dayCount: 0 }; buckets.set(ip, b); }
 
-  b.hits.push(now);
-  b.dayCount += 1;
-  globalCount += 1;
-  next();
+    b.hits = b.hits.filter(t => t > now - WINDOW_MS);
+    if (b.hits.length >= opts.perWindow || b.dayCount >= opts.perDay) {
+      return res.status(429).json({ error: 'rate_limited', message: opts.limitMessage });
+    }
+
+    b.hits.push(now);
+    b.dayCount += 1;
+    globalCount += 1;
+    next();
+  };
 }
+
+const rateLimit = makeLimiter({
+  perWindow: 15,
+  perDay: 60,
+  dailyAll: Number(process.env.CHAT_DAILY_CAP || 1500),
+  busyMessage: "The assistant is at today's limit. Please use the contact form and we'll reply personally.",
+  limitMessage: "That's a lot of questions in a short time. Please email hello@qvisionx.com and a human will pick it up."
+});
+
+// Each run fans out to five model calls, so it is capped far harder.
+const scopeLimit = makeLimiter({
+  perWindow: 3,
+  perDay: 10,
+  dailyAll: Number(process.env.SCOPE_DAILY_CAP || 200),
+  busyMessage: "The scoping demo has hit today's limit. Email hello@qvisionx.com and we'll scope it properly with you.",
+  limitMessage: "You've run this a few times already. Email hello@qvisionx.com and we'll go deeper than the demo can."
+});
 
 // ── system prompt ──────────────────────────────────────────────────────
 // Grounded strictly in what the site actually says. The explicit "never
@@ -191,6 +210,40 @@ app.post('/api/chat', rateLimit, async (req, res) => {
   }
 });
 
+// ── agentic scoping demo ───────────────────────────────────────────────
+app.post('/api/scope', scopeLimit, async (req, res) => {
+  if (!client) {
+    return res.status(503).json({ error: 'unconfigured', message: 'The demo is not available right now. Please email hello@qvisionx.com.' });
+  }
+
+  const problem = typeof (req.body && req.body.problem) === 'string' ? req.body.problem.trim() : '';
+  if (problem.length < 15) {
+    return res.status(400).json({ error: 'too_short', message: 'Give the agents a bit more to work with — a sentence or two about the problem.' });
+  }
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders();
+
+  const send = (event, data) => { if (!closed) res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`); };
+  let closed = false;
+  res.on('close', () => { closed = true; });
+
+  try {
+    send('start', { specialists: Object.keys(SPECIALISTS).map(k => ({ key: k, label: SPECIALISTS[k].label })) });
+    await runScopingGraph(problem.slice(0, 1200), (event, data) => send(event, data));
+    if (!closed) { send('done', {}); res.end(); }
+  } catch (err) {
+    console.error('[scope] graph error:', err && err.message ? err.message : err);
+    if (!closed) {
+      send('error', { message: 'The agents hit a problem mid-run. Please try again, or email hello@qvisionx.com.' });
+      res.end();
+    }
+  }
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, chat: Boolean(client), model: client ? MODEL : null });
 });
@@ -199,7 +252,7 @@ app.get('/api/health', (req, res) => {
 // The site is served from the repo root, so server-side files sit alongside
 // the public ones. Block them explicitly: server.js carries the system
 // prompt, and node_modules/ has no business being reachable.
-const BLOCKED = /^\/(server\.js|package(-lock)?\.json|node_modules|\.|.*\/\.)/i;
+const BLOCKED = /^\/(server\.js|agents\.js|package(-lock)?\.json|node_modules|\.|.*\/\.)/i;
 app.use((req, res, next) => {
   if (BLOCKED.test(decodeURIComponent(req.path))) {
     return res.status(404).sendFile(path.join(__dirname, '404.html'), err => {
