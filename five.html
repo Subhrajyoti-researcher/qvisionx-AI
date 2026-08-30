@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QVisionX Five — Paid AI Programme for Fresh Graduates</title>
+<meta name="description" content="A paid 12-week programme for five fresh graduates. Build real vision, agentic and physical AI systems, publish them under your own name, and work directly with the founder.">
+
+<meta property="og:title" content="QVisionX Five — Paid AI Programme for Fresh Graduates">
+<meta property="og:description" content="Five fresh graduates. Twelve weeks. Real AI systems, published under your own name. Paid.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qvisionx.com/five">
+<meta property="og:image" content="https://www.qvisionx.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-primary:#06080d;--bg-secondary:#0c1018;--bg-card:#111722;
+  --border:rgba(255,255,255,.06);--border-accent:rgba(99,147,255,.25);
+  --text-primary:#f0f2f5;--text-secondary:#8b95a8;--text-muted:#78849a;
+  --accent:#6393ff;--accent-bright:#85b0ff;--accent-glow:rgba(99,147,255,.15);
+  --green:#4ade80;--purple:#a78bfa;
+  --gradient-accent:linear-gradient(135deg,#6393ff 0%,#8b5cf6 100%);
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --font-display:'Space Grotesk','Inter',sans-serif;
+  --max-width:940px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);
+ line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);
+ -webkit-backdrop-filter:blur(20px);background:rgba(6,8,13,.85);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px);
+ display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--font-display);font-size:20px;font-weight:600}
+.logo .logo-x{font-weight:700;background:var(--gradient-accent);
+ -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-tagline{font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
+ color:var(--text-muted);margin-top:-2px}
+.nav-back{font-size:14px;font-weight:500;color:var(--text-secondary);display:inline-flex;
+ align-items:center;gap:8px;transition:color .2s}
+.nav-back:hover{color:var(--text-primary)}
+.nav-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
+header{padding:126px 0 20px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;text-transform:uppercase;
+ letter-spacing:2px;font-weight:600;color:var(--accent);margin-bottom:17px}
+.kicker::before{content:'';width:24px;height:1px;background:var(--accent)}
+h1{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);font-weight:700;
+ letter-spacing:-1.3px;line-height:1.08;margin-bottom:18px}
+h1 .grad{background:var(--gradient-accent);-webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;background-clip:text}
+.lede{font-size:18px;color:var(--text-secondary);max-width:640px;line-height:1.72}
+
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:32px}
+.fact{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:17px 18px}
+.fact .k{font-size:10.5px;text-transform:uppercase;letter-spacing:1.3px;color:var(--text-muted);margin-bottom:6px}
+.fact .v{font-family:var(--font-display);font-size:17px;font-weight:700}
+.fact .v.paid{color:var(--green)}
+
+section{padding:44px 0 0}
+h2{font-family:var(--font-display);font-size:clamp(23px,3vw,30px);font-weight:700;
+ letter-spacing:-.5px;margin-bottom:14px}
+.sec-intro{font-size:16px;color:var(--text-secondary);max-width:640px;line-height:1.72;margin-bottom:24px}
+p.body{font-size:16px;color:var(--text-secondary);line-height:1.75;max-width:640px}
+p.body+p.body{margin-top:14px}
+p.body strong{color:var(--text-primary);font-weight:600}
+
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:13px;padding:22px 24px}
+.card h4{font-family:var(--font-display);font-size:15.5px;font-weight:600;margin-bottom:8px}
+.card p{font-size:14px;color:var(--text-secondary);line-height:1.65}
+
+.steps{display:flex;flex-direction:column;gap:0;margin-top:6px}
+.step{display:grid;grid-template-columns:52px 1fr}
+.step-i{display:flex;flex-direction:column;align-items:center}
+.step-n{width:34px;height:34px;border-radius:50%;background:var(--accent-glow);
+ border:1px solid var(--border-accent);display:flex;align-items:center;justify-content:center;
+ font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--accent)}
+.step-l{width:1px;flex:1;background:linear-gradient(to bottom,var(--border-accent),var(--border));margin:6px 0}
+.step:last-child .step-l{display:none}
+.step-c{padding:4px 0 26px 12px}
+.step:last-child .step-c{padding-bottom:6px}
+.step-c h4{font-family:var(--font-display);font-size:16px;font-weight:600;margin-bottom:6px}
+.step-c p{font-size:14.5px;color:var(--text-secondary);line-height:1.68;max-width:560px}
+
+.honest{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);
+ border-radius:13px;padding:22px 24px;margin-top:8px}
+.honest h4{font-family:var(--font-display);font-size:15px;font-weight:700;color:#fcd34d;margin-bottom:11px}
+.honest ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.honest li{font-size:14.5px;color:var(--text-secondary);line-height:1.6;padding-left:16px;position:relative}
+.honest li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;
+ border-radius:50%;background:#fbbf24}
+
+/* form */
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:17px;padding:30px;margin-top:8px}
+.form-card h3{font-family:var(--font-display);font-size:20px;font-weight:600;margin-bottom:7px}
+.form-card>p.sub{font-size:14.5px;color:var(--text-secondary);margin-bottom:24px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.fg{margin-bottom:15px}
+.fg label{display:block;font-size:13.5px;font-weight:500;color:var(--text-secondary);margin-bottom:7px}
+.fg label .req{color:var(--accent)}
+.fg .hint{font-size:12.5px;color:var(--text-muted);margin-top:6px;line-height:1.5}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 15px;border-radius:10px;
+ background:var(--bg-primary);border:1px solid var(--border);color:var(--text-primary);
+ font-size:16px;font-family:inherit;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text-muted)}
+.fg textarea{resize:vertical;min-height:120px;line-height:1.6}
+.fg select{appearance:none;cursor:pointer;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2378849a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;background-position:right 14px center}
+.counter{font-size:12px;color:var(--text-muted);text-align:right;margin-top:6px}
+.counter.ok{color:var(--green)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;
+ border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;border:none;
+ transition:all .22s;width:100%}
+.btn-primary{background:var(--gradient-accent);color:#fff;box-shadow:0 0 20px rgba(99,147,255,.24)}
+.btn-primary:hover:not(:disabled){box-shadow:0 0 30px rgba(99,147,255,.4);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.status{margin-top:15px;font-size:14.5px;line-height:1.6;display:none}
+.status.on{display:block}
+.status.ok{color:var(--green)}
+.status.err{color:#f87171}
+.status a{color:var(--accent-bright);text-decoration:underline}
+.privacy{margin-top:16px;font-size:12.5px;color:var(--text-muted);line-height:1.6}
+.privacy a{color:var(--accent-bright);text-decoration:underline}
+
+footer{padding:32px 0;border-top:1px solid var(--border);margin-top:60px}
+.footer-inner{max-width:var(--max-width);margin:0 auto;padding:0 clamp(20px,4vw,44px);
+ display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.footer-right{font-size:13px;color:var(--text-muted);text-align:right}
+.footer-legal{display:flex;gap:16px;justify-content:flex-end;margin-top:9px}
+.footer-legal a{font-size:12.5px;color:var(--text-muted)}
+.footer-legal a:hover{color:var(--text-primary)}
+
+@media (max-width:760px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr}
+  .form-card{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><div>QVision<span class="logo-x">X</span></div>
+      <div class="logo-tagline">See. Decide. Act.</div></a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Back to site</a>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="kicker">Programme · Applications open</div>
+    <h1>Five graduates. Twelve weeks. <span class="grad">Work that goes public.</span></h1>
+    <p class="lede">Most internships hand you a spreadsheet and a certificate. This one gives you a real problem, a measurable target, and a repository with your name on it that you can show anyone for the rest of your career.</p>
+
+    <div class="facts">
+      <div class="fact"><div class="k">Cohort size</div><div class="v">5 people</div></div>
+      <div class="fact"><div class="k">Duration</div><div class="v">12 weeks</div></div>
+      <div class="fact"><div class="k">Compensation</div><div class="v paid">Paid monthly</div></div>
+      <div class="fact"><div class="k">Format</div><div class="v">Remote</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>What you'll actually do</h2>
+    <p class="body">You'll own one project end to end for twelve weeks. Not a slice of someone else's work — a whole thing, scoped against a target you have to move, built on real data, and shipped.</p>
+    <p class="body">You'll work through the same three steps a paying client gets: <strong>scope against a measurable target</strong> before writing any model code, <strong>prototype on real data</strong> with the evaluation harness delivered alongside it, then <strong>deploy and hand over</strong> with documentation someone else can pick up. That sequence is the actual skill. Most graduates have never been made to do it.</p>
+    <p class="body">Projects come from our own research and open-source work — vision pipelines, agent orchestration, evaluation tooling, edge deployment. <strong>Everything you build is published under your own name.</strong></p>
+
+    <div class="grid2" style="margin-top:26px">
+      <div class="card">
+        <h4>You own the work</h4>
+        <p>Your project ships as a public repository with you credited as the author. It is yours to show, discuss and build on afterwards. We are not going to bury it.</p>
+      </div>
+      <div class="card">
+        <h4>Direct access, no layers</h4>
+        <p>QVisionX is one person and a fleet of AI agents. You will not be managed through three levels of hierarchy — you work with the founder directly, weekly.</p>
+      </div>
+      <div class="card">
+        <h4>You will be paid</h4>
+        <p>A monthly stipend for the full twelve weeks. We think unpaid technical work dressed up as opportunity is a bad deal, so we do not offer one.</p>
+      </div>
+      <div class="card">
+        <h4>A written reference that means something</h4>
+        <p>At the end you get a reference describing what you actually built and what you were good at — specific enough to be useful, because it is based on real work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Who this is for</h2>
+    <p class="sec-intro">We care about what you can build, not where you studied. There is no institution filter and no minimum CGPA.</p>
+    <div class="grid2">
+      <div class="card">
+        <h4>Final-year students and recent graduates</h4>
+        <p>Graduating this year or within the last two. Any discipline — the strongest applicants often did not study computer science.</p>
+      </div>
+      <div class="card">
+        <h4>You have built something</h4>
+        <p>A project, a tool, a notebook, a bot, something half-finished. It does not have to be impressive or polished. It has to be yours, and you have to be able to explain it.</p>
+      </div>
+      <div class="card">
+        <h4>Comfortable with Python</h4>
+        <p>You can read and write it without a tutorial open. You do not need machine-learning experience — several projects need good engineering more than they need models.</p>
+      </div>
+      <div class="card">
+        <h4>Available for the full twelve weeks</h4>
+        <p>Roughly full-time. This does not work as a few hours around a full course load, and we would rather say so now than three weeks in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>How selection works</h2>
+    <p class="sec-intro">No aptitude tests, no puzzle rounds, no unpaid take-home that takes a weekend.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-i"><div class="step-n">01</div><div class="step-l"></div></div>
+        <div class="step-c">
+          <h4>You apply</h4>
+          <p>The form below. The one question that matters is the last one — it is read properly, and it is what most decisions turn on.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-i"><div class="step-n">02</div><div class="step-l"></div></div>
+        <div class="step-c">
+          <h4>We read everything and reply</h4>
+          <p>Every applicant gets an answer, including a no. Being ignored after applying is the worst part of graduate hiring and it is entirely avoidable.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-i"><div class="step-n">03</div><div class="step-l"></div></div>
+        <div class="step-c">
+          <h4>A conversation, not an interrogation</h4>
+          <p>Shortlisted applicants have a 45-minute call about something you have built. No whiteboard algorithms, no trick questions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-i"><div class="step-n">04</div></div>
+        <div class="step-c">
+          <h4>Five offers</h4>
+          <p>With the stipend, the dates and the project you would own, in writing, before you commit to anything.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>What this isn't</h2>
+    <div class="honest">
+      <h4>Worth being straight about</h4>
+      <ul>
+        <li>This is not a guaranteed job. QVisionX is a one-person company; we cannot promise a role at the end, and anyone who promises you one at this stage is guessing.</li>
+        <li>You will not work on client projects. We are early and do not have client work to hand out — you will build our own research and open-source projects, which is why we can publish everything.</li>
+        <li>It is remote and largely self-directed. You get weekly time with the founder and help when you are stuck, but nobody is watching your calendar.</li>
+        <li>Twelve weeks is short. You will ship one thing properly rather than sample five things shallowly.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="apply">
+  <div class="container">
+    <h2>Apply</h2>
+    <p class="sec-intro">Ten minutes if you write honestly. Longer if you try to sound impressive — and it will read worse.</p>
+
+    <div class="form-card">
+      <h3>QVisionX Five — application</h3>
+      <p class="sub">One cohort, five places. We reply to everyone.</p>
+
+      <form id="apply-form" action="https://script.google.com/macros/s/AKfycbydhWAfhswGHLsHFBq4qGnnbmfd7llD66D4LtWxbTS2lBbFAdJgcsRgJ0Z5brNDwdPN/exec" method="POST">
+        <div class="row">
+          <div class="fg">
+            <label for="a-name">Full name <span class="req">*</span></label>
+            <input type="text" id="a-name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="fg">
+            <label for="a-email">Email <span class="req">*</span></label>
+            <input type="email" id="a-email" name="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="fg">
+            <label for="a-grad">Graduation year <span class="req">*</span></label>
+            <select id="a-grad" name="gradYear" required>
+              <option value="" disabled selected>Select</option>
+              <option>2026 (final year)</option>
+              <option>2025</option>
+              <option>2024</option>
+              <option>Earlier</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="a-inst">Institution / course</label>
+            <input type="text" id="a-inst" name="institution" placeholder="Optional">
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="a-links">Links to your work <span class="req">*</span></label>
+          <input type="text" id="a-links" name="links" placeholder="github.com/you · a project · a write-up" required>
+          <div class="hint">GitHub, a portfolio, a blog post, a Colab notebook — anything we can actually look at. Please don't attach a CV; we'd rather see the work.</div>
+        </div>
+
+        <div class="row">
+          <div class="fg">
+            <label for="a-practice">Which area interests you most? <span class="req">*</span></label>
+            <select id="a-practice" name="practice" required>
+              <option value="" disabled selected>Select</option>
+              <option>Vision AI</option>
+              <option>Agentic AI</option>
+              <option>Physical AI</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="a-avail">Earliest you could start <span class="req">*</span></label>
+            <input type="text" id="a-avail" name="availability" placeholder="e.g. immediately, or June 2026" required>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="a-story">Tell us about something you built that didn't work. <span class="req">*</span></label>
+          <textarea id="a-story" name="story" placeholder="What were you trying to do, what went wrong, and what did you do about it? Being specific about the failure matters more than the project being impressive." required></textarea>
+          <div class="hint">This is the question that decides most applications. There is no correct answer — we are reading for how you think when something breaks.</div>
+          <div class="counter" id="counter">0 characters — aim for at least 200</div>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label for="a-web">Website</label>
+          <input type="text" id="a-web" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit application</button>
+        <div class="status" id="apply-status" role="status" aria-live="polite"></div>
+
+        <p class="privacy">We use what you send here only to assess your application and reply to you. We don't sell it, share it, or use it to train models. Applications we don't take forward are deleted within 12 months, and you can ask us to delete yours sooner at <a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a>. See our <a href="/privacy">Privacy Policy</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo">QVision<span class="logo-x">X</span></div>
+    <div class="footer-right">&copy; 2026 QVisionX (OPC) Private Limited &middot; Bengaluru, India
+      <div class="footer-legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="/chat.js" defer></script>
+<script>
+(function () {
+  'use strict';
+  var form    = document.getElementById('apply-form');
+  var status  = document.getElementById('apply-status');
+  var story   = document.getElementById('a-story');
+  var counter = document.getElementById('counter');
+  var btn     = form.querySelector('button[type="submit"]');
+  var MIN     = 200;
+
+  story.addEventListener('input', function () {
+    var n = story.value.trim().length;
+    counter.textContent = n + ' characters' + (n >= MIN ? '' : ' — aim for at least ' + MIN);
+    counter.className = 'counter' + (n >= MIN ? ' ok' : '');
+  });
+
+  function show(kind, html) {
+    status.className = 'status on ' + kind;
+    status.innerHTML = html;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = v; });
+
+    // Honeypot: feign success so bots don't retry.
+    if (data.website) { form.reset(); show('ok', 'Thanks — your application is in.'); return; }
+
+    if (data.story.trim().length < MIN) {
+      show('err', 'The last question needs a bit more — at least ' + MIN + ' characters. It is the part we read most carefully.');
+      story.focus();
+      return;
+    }
+
+    // Routed by the Apps Script into the applications tab, separate from enquiries.
+    data.type = 'application';
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.className = 'status';
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 20000);
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(data),
+      signal: ctrl.signal
+    })
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+      .then(function (json) {
+        if (json.result !== 'success') throw new Error(json.error || 'Unexpected response');
+        form.reset();
+        counter.textContent = '0 characters — aim for at least ' + MIN;
+        counter.className = 'counter';
+        show('ok', 'Thanks — your application is in. We read every one and reply to everyone, including a no.');
+        btn.textContent = 'Submitted';
+        setTimeout(function () { btn.textContent = 'Submit application'; btn.disabled = false; }, 3000);
+      })
+      .catch(function (err) {
+        show('err', 'Something went wrong sending that. Please email your application to ' +
+          '<a href="mailto:hello@qvisionx.com">hello@qvisionx.com</a> instead.');
+        btn.textContent = 'Submit application';
+        btn.disabled = false;
+        console.error('Application submission failed:', err);
+      })
+      .finally(function () { clearTimeout(timer); });
+  });
+})();
+</script>
+
+</body>
+</html>
