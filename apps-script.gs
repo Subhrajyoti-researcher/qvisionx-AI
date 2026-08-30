@@ -37,6 +37,32 @@ var SCHEMAS = {
   }
 };
 
+/**
+ * Health check. Open the /exec URL in a browser after deploying — if you
+ * see {"ok":true,...} the deployment is live and the script can reach the
+ * sheet. Verify this BEFORE testing the real forms, so a failure tells you
+ * whether the problem is the deployment or the form.
+ */
+function doGet() {
+  var out = { ok: true, tabs: {} };
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    out.spreadsheet = ss.getName();
+    for (var key in SCHEMAS) {
+      var name = SCHEMAS[key].sheet;
+      var sheet = ss.getSheetByName(name);
+      out.tabs[name] = sheet ? (sheet.getLastRow() - 1) + ' row(s)' : 'not created yet';
+    }
+    out.notifyEmail = NOTIFY_EMAIL || '(not set)';
+  } catch (err) {
+    out.ok = false;
+    out.error = String(err);
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify(out, null, 2))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
