@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QVisionX — Applied AI Systems (design preview)</title>
+<meta name="description" content="Design preview: an editorial treatment of the QVisionX homepage.">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M67 75A30 30 0 1 1 75 67' stroke='%232f4bc4' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='%232f4bc4' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='%232f4bc4'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/editorial.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/preview" class="brand">
+      <svg viewBox="0 0 200 200" fill="none" aria-hidden="true">
+        <path d="M 134 149 A 60 60 0 1 1 149 134" stroke="#2f4bc4" stroke-width="11" stroke-linecap="round"/>
+        <line x1="141" y1="141" x2="176" y2="176" stroke="#2f4bc4" stroke-width="11" stroke-linecap="round"/>
+        <circle cx="100" cy="100" r="24" stroke="#2f4bc4" stroke-width="5" fill="none"/>
+        <circle cx="100" cy="100" r="9" fill="#2f4bc4"/>
+      </svg>
+      <b>QVisionX</b>
+    </a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#practices">Practices</a>
+      <a href="#about">About</a>
+      <a href="#contact">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding-top:clamp(72px,10vw,132px);padding-bottom:clamp(48px,6vw,76px)">
+  <div class="wrap">
+    <h1 style="max-width:20ch">Applied AI systems that see, decide, and act.</h1>
+    <p class="lede measure" style="margin-top:clamp(24px,3vw,34px)">
+      We build vision, agentic and physical AI for teams shipping real products —
+      systems that survive production, not pilots that stall at the demo.
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
+      <a href="#contact" class="btn btn-solid">Get in touch
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      <a href="/demo" class="btn btn-line">See it working</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule"></div>
+
+<!-- POSITION -->
+<section>
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">The studio</span>
+      <h2 style="margin-top:14px">One founder,<br>a fleet of agents.</h2>
+    </div>
+    <div class="measure">
+      <p>QVisionX is deliberately small. Priyanka Mandal architects every system and
+      owns the outcome; a fleet of AI agents handles research, code generation, testing
+      and deployment around the clock. For larger builds, specialist engineers join for
+      the duration.</p>
+      <p>The result is a studio that moves at the speed of a very small team and holds
+      itself to the standards of a much larger one. Nothing ships without an evaluation
+      set, and nothing is handed over without documentation someone else can pick up.</p>
+      <p style="margin-top:22px">
+        <a href="#about" class="tlink">More about how we work
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / PROOF -->
+<section id="work" style="background:var(--paper-sunk)">
+  <div class="wrap">
+    <div class="section-head measure">
+      <span class="eyebrow">Proof</span>
+      <h2>Don't take our word for it.</h2>
+      <p class="lede" style="margin-top:16px">Most studios ask you to trust a deck.
+      We publish things you can open and run yourself.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat panel">
+        <span class="eyebrow">Live demo</span>
+        <h3 style="margin-bottom:9px">Object detection, in your browser</h3>
+        <p style="color:var(--ink-soft)">A real detector with measured latency on your own hardware. No image ever leaves your device.</p>
+        <p style="margin-top:16px"><a href="/demo" class="tlink">Open the demo
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
+      </div>
+      <div class="stat panel">
+        <span class="eyebrow">Live demo</span>
+        <h3 style="margin-bottom:9px">A supervisor agent, planning</h3>
+        <p style="color:var(--ink-soft)">Describe a problem and watch a LangGraph supervisor dispatch three specialists and synthesise a scoping brief.</p>
+        <p style="margin-top:16px"><a href="/agentic" class="tlink">Run the agents
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
+      </div>
+      <div class="stat panel">
+        <span class="eyebrow">Writing</span>
+        <h3 style="margin-bottom:9px">Inside a vision-language-action model</h3>
+        <p style="color:var(--ink-soft)">How GR00T N1.7 turns a camera frame into a motor command, and the latency budget that governs it.</p>
+        <p style="margin-top:16px"><a href="/physical-ai" class="tlink">Read it
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICES -->
+<section id="practices">
+  <div class="wrap">
+    <div class="section-head measure">
+      <span class="eyebrow">Practices</span>
+      <h2>Four areas of work.</h2>
+      <p class="lede" style="margin-top:16px">Each ships independently, and they compose:
+      perception feeding agents, agents driving hardware.</p>
+    </div>
+
+    <div class="entries">
+      <div class="entry">
+        <div class="entry-n">01</div>
+        <div>
+          <h3>Vision AI</h3>
+          <div class="entry-note">Inspection · detection · segmentation</div>
+        </div>
+        <div>
+          <p>Visual systems for inspection, detection, segmentation and monitoring — built to hold accuracy under real lighting, real hardware and real throughput.</p>
+          <a href="/demo" class="tlink">Try live object detection
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-n">02</div>
+        <div>
+          <h3>Agentic AI</h3>
+          <div class="entry-note">Planning · orchestration · tool use</div>
+        </div>
+        <div>
+          <p>Autonomous agents that reason, plan and collaborate across enterprise workflows — designed so the orchestration is legible rather than a black box.</p>
+          <a href="/agentic" class="tlink">Watch a supervisor agent plan
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-n">03</div>
+        <div>
+          <h3>Physical AI</h3>
+          <div class="entry-note">Robotics · edge · embodied systems</div>
+        </div>
+        <div>
+          <p>Perception, reasoning and action joined into systems that act in the world — including hands-on work with the NVIDIA Isaac GR00T stack.</p>
+          <a href="/physical-ai" class="tlink">Inside a vision-language-action model
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-n">04</div>
+        <div>
+          <h3>Quantum AI</h3>
+          <div class="entry-note">Research track — not a service</div>
+        </div>
+        <div>
+          <p>An open research interest in quantum-classical hybrid models and quantum-enhanced optimisation. We are not selling this; we are reading and experimenting in it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="about" style="background:var(--paper-sunk)">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Method</span>
+      <h2 style="margin-top:14px">Measured,<br>not asserted.</h2>
+    </div>
+    <div class="measure">
+      <p><strong>Scope against a measurable target.</strong> Before any model work, we
+      agree the number the system has to move — recall, cycle time, cost per task.
+      Without one, "better" is a matter of opinion.</p>
+      <p><strong>Prototype on your data.</strong> A narrow, evaluable build against real
+      inputs and real failure cases, with the evaluation harness delivered alongside it.</p>
+      <p><strong>Deploy and hand over.</strong> Production deployment on your
+      infrastructure, with monitoring, documentation, and a team that can run it
+      without us.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Contact</span>
+      <h2 style="margin-top:14px">Tell us what the system has to do.</h2>
+    </div>
+    <div class="measure">
+      <p>A short description of the problem and the metric you care about is enough to
+      start. We reply within two business days.</p>
+      <p style="margin-top:26px">
+        <a href="mailto:hello@qvisionx.com" class="btn btn-solid">hello@qvisionx.com
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </p>
+      <p class="foot-meta" style="margin-top:22px">
+        Hiring: five paid places for fresh graduates —
+        <a href="/five" class="tlink" style="font-size:13px">QVisionX Five</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-meta">
+      &copy; 2026 QVisionX (OPC) Private Limited<br>
+      Bengaluru, India · working hours overlap US Eastern mornings
+    </div>
+    <div class="foot-links">
+      <a href="/demo">Demo</a>
+      <a href="/agentic">Agents</a>
+      <a href="/five">Careers</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
