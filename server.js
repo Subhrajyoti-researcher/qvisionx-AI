@@ -252,7 +252,7 @@ app.get('/api/health', (req, res) => {
 // The site is served from the repo root, so server-side files sit alongside
 // the public ones. Block them explicitly: server.js carries the system
 // prompt, and node_modules/ has no business being reachable.
-const BLOCKED = /^\/(server\.js|agents\.js|package(-lock)?\.json|node_modules|\.|.*\/\.)/i;
+const BLOCKED = /^\/(server\.js|agents\.js|package(-lock)?\.json|node_modules|.*\.gs$|\.|.*\/\.)/i;
 app.use((req, res, next) => {
   if (BLOCKED.test(decodeURIComponent(req.path))) {
     return res.status(404).sendFile(path.join(__dirname, '404.html'), err => {
