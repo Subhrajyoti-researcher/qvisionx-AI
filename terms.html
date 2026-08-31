@@ -38,14 +38,23 @@ body {
 a { color: inherit; }
 .container { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
 
+/* Floating pill: the <nav> is a transparent rail, .nav-inner is the pill. */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  background: rgba(6,8,13,0.85); border-bottom: 1px solid var(--border);
+  padding: 14px clamp(14px, 3vw, 30px);
+  background: transparent;
 }
 .nav-inner {
-  max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px);
-  display: flex; align-items: center; justify-content: space-between; height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+  max-width: 760px; margin: 0 auto;
+  padding: 0 22px;
+  border-radius: 100px;
+  background: rgba(14,19,29,0.82);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.42);
 }
 .logo { font-family: var(--font-display); font-size: 19px; font-weight: 600; text-decoration: none; }
 .logo .logo-x {

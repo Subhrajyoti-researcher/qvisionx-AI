@@ -66,16 +66,23 @@ a { color: inherit; text-decoration: none; }
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 
 /* ── NAV ── */
+/* Floating pill: the <nav> is a transparent rail, .nav-inner is the pill. */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  background: rgba(6,8,13,0.8);
-  border-bottom: 1px solid var(--border);
-  transition: background 0.3s;
+  padding: 14px clamp(14px, 3vw, 30px);
+  background: transparent;
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 72px;
+  height: 60px;
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 0 10px 0 24px;
+  border-radius: 100px;
+  background: rgba(14,19,29,0.82);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.42);
 }
 .logo {
   font-family: var(--font-display);
@@ -125,17 +132,23 @@ nav {
   cursor: pointer; padding: 8px; margin: -8px; border-radius: 8px;
 }
 .mobile-toggle:hover { background: rgba(255,255,255,0.05); }
+/* Sits just under the pill and echoes its shape. */
 .mobile-menu {
   display: none;
-  position: absolute; top: 72px; left: 0; right: 0;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border);
-  padding: 8px 0 20px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  position: absolute; top: calc(100% - 4px);
+  left: clamp(14px, 3vw, 30px); right: clamp(14px, 3vw, 30px);
+  background: rgba(14,19,29,0.97);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 6px 0;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
 }
 .mobile-menu.open { display: block; }
 .mobile-menu a {
-  display: block; padding: 14px clamp(20px, 4vw, 48px);
+  display: block; padding: 14px 24px;
   font-size: 16px; font-weight: 500; color: var(--text-secondary);
   border-bottom: 1px solid var(--border);
   transition: color 0.2s, background 0.2s;
@@ -147,7 +160,7 @@ nav {
 .hero {
   min-height: 100vh; display: flex; align-items: center;
   position: relative; overflow: hidden;
-  padding-top: 72px;
+  padding-top: 96px;
 }
 .hero-bg {
   position: absolute; inset: 0; z-index: 0;
