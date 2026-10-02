@@ -12,10 +12,10 @@
 
   var css = `
 .qvx-fab{position:fixed;right:20px;bottom:20px;z-index:9998;width:56px;height:56px;border-radius:50%;
- border:none;cursor:pointer;background:linear-gradient(135deg,#6393ff,#8b5cf6);
- box-shadow:0 6px 24px rgba(99,147,255,.38);display:flex;align-items:center;justify-content:center;
+ border:none;cursor:pointer;background:linear-gradient(135deg,#E8551F,#F7943F);
+ box-shadow:0 6px 24px rgba(232,85,31,.38);display:flex;align-items:center;justify-content:center;
  transition:transform .2s,box-shadow .2s}
-.qvx-fab:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(99,147,255,.5)}
+.qvx-fab:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(232,85,31,.5)}
 .qvx-fab svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .qvx-fab.open .qvx-ico-chat{display:none}
 .qvx-fab:not(.open) .qvx-ico-close{display:none}
@@ -43,16 +43,16 @@
 .qvx-msg{max-width:86%;font-size:14px;line-height:1.62;white-space:pre-wrap;word-wrap:break-word}
 .qvx-msg.bot{align-self:flex-start;color:#c9d1de;background:#111722;border:1px solid rgba(255,255,255,.06);
  padding:11px 14px;border-radius:13px 13px 13px 4px}
-.qvx-msg.me{align-self:flex-end;color:#fff;background:linear-gradient(135deg,#6393ff,#8b5cf6);
+.qvx-msg.me{align-self:flex-end;color:#fff;background:linear-gradient(135deg,#E8551F,#F7943F);
  padding:11px 14px;border-radius:13px 13px 4px 13px}
 .qvx-msg.err{align-self:flex-start;color:#fca5a5;background:rgba(248,113,113,.09);
  border:1px solid rgba(248,113,113,.25);padding:11px 14px;border-radius:13px}
-.qvx-msg a{color:#85b0ff}
+.qvx-msg a{color:#FF8A5B}
 
 .qvx-sugg{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
-.qvx-sugg button{font-family:inherit;font-size:12.5px;color:#85b0ff;background:rgba(99,147,255,.1);
- border:1px solid rgba(99,147,255,.26);padding:7px 12px;border-radius:100px;cursor:pointer;transition:background .18s}
-.qvx-sugg button:hover{background:rgba(99,147,255,.2)}
+.qvx-sugg button{font-family:inherit;font-size:12.5px;color:#FF8A5B;background:rgba(232,85,31,.1);
+ border:1px solid rgba(232,85,31,.26);padding:7px 12px;border-radius:100px;cursor:pointer;transition:background .18s}
+.qvx-sugg button:hover{background:rgba(232,85,31,.2)}
 
 .qvx-typing{align-self:flex-start;display:flex;gap:4px;padding:13px 15px;background:#111722;
  border:1px solid rgba(255,255,255,.06);border-radius:13px 13px 13px 4px}
@@ -66,10 +66,10 @@
 .qvx-in{flex:1;resize:none;font-family:inherit;font-size:15px;line-height:1.45;color:#f0f2f5;
  background:#06080d;border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:10px 12px;
  max-height:104px;outline:none}
-.qvx-in:focus{border-color:#6393ff;box-shadow:0 0 0 3px rgba(99,147,255,.15)}
+.qvx-in:focus{border-color:#E8551F;box-shadow:0 0 0 3px rgba(232,85,31,.15)}
 .qvx-in::placeholder{color:#78849a}
 .qvx-send{width:40px;height:40px;flex-shrink:0;border:none;border-radius:10px;cursor:pointer;
- background:linear-gradient(135deg,#6393ff,#8b5cf6);display:flex;align-items:center;justify-content:center}
+ background:linear-gradient(135deg,#E8551F,#F7943F);display:flex;align-items:center;justify-content:center}
 .qvx-send:disabled{opacity:.4;cursor:not-allowed}
 .qvx-send svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .qvx-note{font-size:11px;color:#78849a;text-align:center;margin-top:8px;line-height:1.45}

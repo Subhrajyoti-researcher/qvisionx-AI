@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://www.qvisionx.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop stop-color='%236393ff'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><path d='M67 75A30 30 0 1 1 75 67' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linecap='round'/><line x1='71' y1='71' x2='90' y2='90' stroke='url(%23g)' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='50' r='10' fill='url(%23g)'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='42' cy='42' r='29' stroke='%23E8551F' stroke-width='10' fill='none'/><circle cx='42' cy='42' r='8' fill='%23E8551F'/><line x1='63' y1='63' x2='88' y2='88' stroke='%23E8551F' stroke-width='10' stroke-linecap='round'/><line x1='88' y1='60' x2='60' y2='88' stroke='%23F7943F' stroke-width='10' stroke-linecap='round'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,17 +26,17 @@
   --bg-secondary: #0c1018;
   --bg-card: #111722;
   --border: rgba(255,255,255,0.06);
-  --border-accent: rgba(99,147,255,0.25);
+  --border-accent: rgba(232,85,31,0.25);
   --text-primary: #f0f2f5;
   --text-secondary: #8b95a8;
   --text-muted: #78849a;
-  --accent: #6393ff;
-  --accent-bright: #85b0ff;
-  --accent-glow: rgba(99,147,255,0.15);
+  --accent: #E8551F;
+  --accent-bright: #FF8A5B;
+  --accent-glow: rgba(232,85,31,0.15);
   --purple: #a78bfa;
   --green: #4ade80;
   --amber: #fbbf24;
-  --gradient-accent: linear-gradient(135deg, #6393ff 0%, #8b5cf6 100%);
+  --gradient-accent: linear-gradient(135deg, #E8551F 0%, #F7943F 100%);
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -70,19 +70,6 @@ nav {
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 8px 30px rgba(0,0,0,0.42);
-}
-.logo { font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: 0.3px; }
-.logo .logo-x {
-  font-weight: 700; background: var(--gradient-accent);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.logo-ai {
-  font-weight: 500; margin-left: 6px; letter-spacing: 0.5px;
-  color: var(--text-primary); -webkit-text-fill-color: var(--text-primary);
-}
-.logo-tagline {
-  font-size: 9px; font-weight: 500; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--text-muted); margin-top: -2px;
 }
 .nav-back {
   font-size: 14px; font-weight: 500; color: var(--text-secondary);
@@ -179,7 +166,7 @@ p.body strong { color: var(--text-primary); font-weight: 600; }
 .stage-content p + p { margin-top: 11px; }
 .stage-content code {
   font-family: var(--font-mono); font-size: 12.5px;
-  background: rgba(99,147,255,0.1); color: var(--accent-bright);
+  background: rgba(232,85,31,0.1); color: var(--accent-bright);
   padding: 2px 6px; border-radius: 4px;
 }
 .stage-flow { display: flex; align-items: center; justify-content: center; padding: 2px 0; }
@@ -207,7 +194,7 @@ p.body strong { color: var(--text-primary); font-weight: 600; }
 }
 .lat-fill {
   position: absolute; top: 0; bottom: 0; left: 0;
-  background: linear-gradient(90deg, rgba(99,147,255,0.35), rgba(139,92,246,0.35));
+  background: linear-gradient(90deg, rgba(232,85,31,0.35), rgba(247,148,63,0.35));
   border-right: 2px solid var(--accent-bright);
   transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
   display: flex; align-items: center; justify-content: flex-end; padding-right: 12px;
@@ -231,7 +218,7 @@ p.body strong { color: var(--text-primary); font-weight: 600; }
 .lat-stat .v.mid { color: var(--amber); }
 .lat-note {
   margin-top: 20px; padding: 15px 17px; border-radius: 9px;
-  background: rgba(99,147,255,0.06); border: 1px solid rgba(99,147,255,0.14);
+  background: rgba(232,85,31,0.06); border: 1px solid rgba(232,85,31,0.14);
   font-size: 13.5px; color: var(--text-secondary); line-height: 1.65;
 }
 
@@ -265,7 +252,7 @@ p.body strong { color: var(--text-primary); font-weight: 600; }
 /* ── CTA ── */
 .cta {
   margin: 20px 0 80px; padding: 34px 36px; border-radius: 16px;
-  background: linear-gradient(135deg, rgba(99,147,255,0.09), rgba(139,92,246,0.09));
+  background: linear-gradient(135deg, rgba(232,85,31,0.09), rgba(247,148,63,0.09));
   border: 1px solid var(--border-accent);
   display: flex; align-items: center; justify-content: space-between; gap: 26px; flex-wrap: wrap;
 }
@@ -276,8 +263,8 @@ p.body strong { color: var(--text-primary); font-weight: 600; }
   padding: 12px 24px; border-radius: 9px; font-size: 14px; font-weight: 600;
   font-family: var(--font-body); cursor: pointer; border: none; transition: all 0.25s;
 }
-.btn-primary { background: var(--gradient-accent); color: #fff; box-shadow: 0 0 20px rgba(99,147,255,0.24); }
-.btn-primary:hover { box-shadow: 0 0 30px rgba(99,147,255,0.4); transform: translateY(-1px); }
+.btn-primary { background: var(--gradient-accent); color: #fff; box-shadow: 0 0 20px rgba(232,85,31,0.24); }
+.btn-primary:hover { box-shadow: 0 0 30px rgba(232,85,31,0.4); transform: translateY(-1px); }
 .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 footer { padding: 34px 0; border-top: 1px solid var(--border); }
@@ -297,16 +284,32 @@ footer { padding: 34px 0; border-top: 1px solid var(--border); }
   .stage-meta { display: none; }
   .cta .btn { width: 100%; justify-content: center; }
 }
+.logo { display: flex; align-items: center; gap: 11px; }
+.logo-mark { width: 36px; height: 36px; flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; }
+.logo-word {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 700; letter-spacing: -0.2px;
+  color: var(--text-primary); display: flex; align-items: center;
+}
+.logo-word .logo-x { color: var(--accent); }
+.logo-ai {
+  font-family: var(--font-body);
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.8px;
+  margin-left: 7px; padding: 2px 5px;
+  border: 1.5px solid var(--text-primary); border-radius: 5px; line-height: 1.1;
+}
+.logo-tagline {
+  font-size: 8px; font-weight: 500; letter-spacing: 2.1px;
+  text-transform: uppercase; color: var(--text-muted); margin-top: 1px;
+}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="logo">
-      <div>QVision<span class="logo-x">X</span><span class="logo-ai">AI</span></div>
-      <div class="logo-tagline">See. Decide. Act.</div>
-    </a>
+    <a href="/" class="logo"><img src="/logo-mark.svg" alt="" class="logo-mark" width="36" height="36"><span class="logo-text"><span class="logo-word">QVision<span class="logo-x">X</span><span class="logo-ai">AI</span></span><span class="logo-tagline">See &middot; Decide &middot; Act</span></span></a>
     <a href="/" class="nav-back">
       <svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       Back to site
@@ -549,7 +552,7 @@ footer { padding: 34px 0; border-top: 1px solid var(--border); }
 
 <footer>
   <div class="container footer-inner">
-    <div class="logo">QVision<span class="logo-x">X</span><span class="logo-ai">AI</span></div>
+    <div class="logo"><img src="/logo-mark.svg" alt="" class="logo-mark" width="32" height="32"><span class="logo-text"><span class="logo-word">QVision<span class="logo-x">X</span><span class="logo-ai">AI</span></span></span></div>
     <div class="footer-right">
       GR00T is an NVIDIA model. QVisionX is not affiliated with NVIDIA.
       <div class="footer-legal">
